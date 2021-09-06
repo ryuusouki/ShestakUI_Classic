@@ -316,7 +316,7 @@ if C.reminder.solo_buffs_enable == true then
 		PRIEST = {
 			[1] = {	-- Inner Fire/Will group
 				["spells"] = {
-					SpellName(588),		-- Inner Fire
+--					SpellName(588),		-- Inner Fire
 				},
 				["combat"] = true,
 				["instance"] = true,
@@ -342,8 +342,8 @@ if C.reminder.solo_buffs_enable == true then
 			},
 			[4] = {	-- Shadow Resistance group
 				["spells"] = {
-					SpellName(976),		-- Shadow Protection
-					SpellName(27683),	-- Prayer of Shadow Protection
+--					SpellName(976),		-- Shadow Protection
+--					SpellName(27683),	-- Prayer of Shadow Protection
 				},
 				["combat"] = true,
 				["instance"] = true,
