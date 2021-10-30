@@ -44,10 +44,14 @@ local backdrop = {
 
 for _, tt in pairs(tooltips) do
 	if not IsAddOnLoaded("Aurora") then
-		tt:SetBackdrop(nil)
-		tt.SetBackdrop = T.dummy
-		if tt.BackdropFrame then
-			tt.BackdropFrame:SetBackdrop(nil)
+		if tt.SetBackdrop then
+			tt:SetBackdrop(nil)
+			tt.SetBackdrop = T.dummy
+			if tt.BackdropFrame then
+				tt.BackdropFrame:SetBackdrop(nil)
+			end
+		else
+			tt.NineSlice:SetAlpha(0)
 		end
 		local bg = CreateFrame("Frame", nil, tt)
 		bg:SetPoint("TOPLEFT")
@@ -346,7 +350,7 @@ local OnTooltipSetUnit = function(self)
 			end
 		end
 
-		if T.classic and not T.BCC and guildName and C.tooltip.rank then -- Rank line needs to come later for Classic 1.13.* clients
+		if T.classic and not T.BCC and guildName and C.tooltip.rank then -- Rank line needs to come later for Classic 1.13.*/1.14.* clients
 			self:AddLine(RANK..": |cffffffff"..guildRank.."|r")
 		end
 	else

@@ -199,7 +199,11 @@ local function LoadSkin()
 			local swatchName = nameString..index
 			local swatch = _G[swatchName]
 
-			swatch:SetBackdrop(nil)
+			if swatch.SetBackdrop then
+				swatch:SetBackdrop(nil)
+			else
+				swatch.NineSlice:SetAlpha(0)
+			end
 
 			local bg = CreateFrame("Frame", nil, swatch)
 			bg:SetPoint("TOPLEFT", 0, 0)
@@ -270,6 +274,16 @@ local function LoadSkin()
 	_G["ChatConfigCombatSettingsFiltersCopyFilterButton"]:SetPoint("RIGHT", _G["ChatConfigCombatSettingsFiltersDeleteButton"], "LEFT", -3, 0)
 	_G["ChatConfigCombatSettingsFiltersAddFilterButton"]:SetPoint("RIGHT", _G["ChatConfigCombatSettingsFiltersCopyFilterButton"], "LEFT", -3, 0)
 
+	if ChatConfigFrame.ToggleChatButton then
+		ChatConfigFrame.ToggleChatButton:SkinButton()
+		ChatConfigFrame.ToggleChatButton:ClearAllPoints()
+		ChatConfigFrame.ToggleChatButton:SetPoint("LEFT", _G["ChatConfigFrameRedockButton"], "RIGHT", 3, 0)
+
+		if T.newPatch then
+			T.SkinCheckBox(TextToSpeechCharacterSpecificButton, 25)
+		end
+	end
+
 	hooksecurefunc(ChatConfigFrameChatTabManager, "UpdateWidth", function(self)
 		for tab in self.tabPool:EnumerateActive() do
 			if not tab.IsSkinned then
@@ -309,7 +323,7 @@ local function LoadSkin()
 			if checkBoxTable then
 				local checkBoxNameString = frame:GetName().."CheckBox"
 				local checkBoxName, checkBox
-				for index, value in ipairs(checkBoxTable) do
+				for index in ipairs(checkBoxTable) do
 					checkBoxName = checkBoxNameString..index
 					checkBox = _G[checkBoxName]
 					if checkBox and not checkBox.styled then

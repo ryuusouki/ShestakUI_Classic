@@ -231,6 +231,7 @@ local function LoadSkin()
 			local btn = buttons.elements[i]
 			if btn and not btn.IsSkinned then
 				btn.Background:SetAlpha(0)
+				btn.BackgroundOverlay:SetAlpha(0)
 				btn.CircleMask:Hide()
 				btn.Icon:SetSize(50, 50)
 				btn.Icon:SkinIcon(true)
@@ -246,7 +247,7 @@ local function LoadSkin()
 
 	local items = EncounterJournal.encounter.info.lootScroll.buttons
 	for i = 1, #items do
-		local item = items[i]
+		local item = T.newPatch and items[i].lootFrame or items[i]
 		hooksecurefunc(item.IconBorder, "SetVertexColor", function(self, r, g, b)
 			self:GetParent().IconBackdrop:SetBackdropBorderColor(r, g, b)
 			self:SetTexture("")

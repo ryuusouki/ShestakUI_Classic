@@ -17,8 +17,8 @@ local partytarget_height = party_height
 local raid_width = C.raidframe.dps_raid_width
 local raid_height = C.raidframe.dps_raid_height
 local raid_power_height = C.raidframe.dps_raid_power_height
-local tank_width = C.raidframe.heal_width
-local tank_height = C.raidframe.heal_height
+local tank_width = C.raidframe.heal_raid_width
+local tank_height = C.raidframe.heal_raid_height
 
 -- Create layout
 local function Shared(self, unit)
@@ -250,7 +250,7 @@ local function Shared(self, unit)
 
 	-- Incoming heal text/bar
 	if C.raidframe.plugins_healcomm == true then
-		if T.classic and not T.BCC then
+		if T.classic then
 			local healBar = CreateFrame("StatusBar", nil, self)
 			healBar:SetAllPoints(self.Health)
 			healBar:SetStatusBarTexture(C.media.texture)
@@ -439,7 +439,7 @@ oUF:Factory(function(self)
 		"template", C.raidframe.raid_tanks_tt and "oUF_MainTankTT" or "oUF_MainTank"
 		)
 		_G["RaidTankDPSAnchor"]:SetSize(tank_width, tank_height)
-		raidtank:SetPoint("TOPLEFT", _G["RaidTankDPSAnchor"])
+		raidtank:SetPoint("BOTTOMLEFT", _G["RaidTankDPSAnchor"])
 	end
 end)
 

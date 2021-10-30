@@ -45,6 +45,7 @@ local coords = modules.Coords
 local ping = modules.Ping
 local gold = modules.Gold
 local stats = modules.Stats
+local stat = modules.Stat
 local bags = modules.Bags
 local loot = modules.Loot
 local nameplates = modules.Nameplates
@@ -287,18 +288,10 @@ if clock.enabled then
 		OnEvent = function(self) if self.hovered then self:GetScript("OnEnter")(self) end end,
 		OnEnter = function(self)
 			if not self.hovered then RequestRaidInfo() self.hovered = true end
-			local currentCalendarTime, weekday, month, fullDate
-			if T.classic and not T.BCC then
-				currentCalendarTime = C_DateAndTime.GetTodaysDate()
-				weekday = CALENDAR_WEEKDAY_NAMES[currentCalendarTime.weekDay]
-				month = CALENDAR_MONTH_NAMES[currentCalendarTime.month]
-				fullDate = format(FULLDATE, weekday, month, currentCalendarTime.day, currentCalendarTime.year, currentCalendarTime.month)
-			else
-				currentCalendarTime = C_DateAndTime.GetCurrentCalendarTime()
-				weekday = CALENDAR_WEEKDAY_NAMES[currentCalendarTime.weekday]
-				month = CALENDAR_MONTH_NAMES[currentCalendarTime.month]
-				fullDate = format(FULLDATE, weekday, month, currentCalendarTime.monthDay, currentCalendarTime.year, currentCalendarTime.month)
-			end
+			local currentCalendarTime = C_DateAndTime.GetCurrentCalendarTime()
+			local weekday = CALENDAR_WEEKDAY_NAMES[currentCalendarTime.weekday]
+			local month = CALENDAR_MONTH_NAMES[currentCalendarTime.month]
+			local fullDate = format(FULLDATE, weekday, month, currentCalendarTime.monthDay, currentCalendarTime.year, currentCalendarTime.month)
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(clock.tip_anchor, clock.tip_frame, clock.tip_x, clock.tip_y)
@@ -2119,7 +2112,9 @@ if stats.enabled then
 		elseif sub == "versatility" then
 			string = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE)
 		elseif sub == "leech" then
-			string = GetCombatRating(17)
+			string = GetLifesteal()
+		elseif sub == "reduceaoe" then
+			string = GetAvoidance()
 		else
 			string, percent = format("[%s]", sub)
 		end
@@ -2137,12 +2132,68 @@ if stats.enabled then
 				if T.classic then
 					self.text:SetText(gsub(stats[format("spec%dfmt", T.GetSpecialization() and T.GetSpecialization() or 1)], "%[(%w-)%]", tags))
 				else
-					self.text:SetText(gsub(stats[format("spec%dfmt", GetSpecialization() and GetSpecialization() or 1)], "%[(%w-)%]", tags))
+					self.text:SetText(gsub(stats.fmt, "%[(%w-)%]", tags))
+					LP_Stat.text:SetText(gsub(stat[format("spec%dfmt", GetSpecialization() and GetSpecialization() or 1)], "%[(%w-)%]", tags))
 				end
 				self.elapsed, self.fired = 0, false
+				if self.hovered then self:GetScript("OnEnter")(self) end
 			end
-		end
+		end,
+		OnClick = function() ToggleCharacter("PaperDollFrame") end,
+		OnEnter = function(self)
+			if T.classic then return end
+			self.hovered = true
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", -3, 26)
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine(PAPERDOLL_SIDEBAR_STATS, tthead.r, tthead.g, tthead.b)
+			GameTooltip:AddLine(" ")
+			local spec = T.classic and T.GetSpecialization() or GetSpecialization()
+			if spec and not T.classic then
+				local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")))
+				local value = UnitStat("player", primaryStat)
+				local statName = _G["SPELL_STAT"..primaryStat.."_NAME"]
+				GameTooltip:AddDoubleLine(statName, value, ttsubh.r, ttsubh.g, ttsubh.b, 1, 1, 1)
+			end
+			local leech = tonumber(tags"leech")
+			if leech > 0 then
+				GameTooltip:AddDoubleLine(STAT_LIFESTEAL, leech.."%", ttsubh.r, ttsubh.g, ttsubh.b, 1, 1, 1)
+			end
+			local reduceaoe = tonumber(tags"reduceaoe")
+			if reduceaoe > 0 then
+				GameTooltip:AddDoubleLine(STAT_AVOIDANCE, reduceaoe.."%", ttsubh.r, ttsubh.g, ttsubh.b, 1, 1, 1)
+			end
+			if T.Role == "Tank" then
+				GameTooltip:AddDoubleLine(STAT_DODGE, tags"dodge".."%", ttsubh.r, ttsubh.g, ttsubh.b, 1, 1, 1)
+				GameTooltip:AddDoubleLine(STAT_PARRY, tags"parry".."%", ttsubh.r, ttsubh.g, ttsubh.b, 1, 1, 1)
+				local block = tonumber(tags"block")
+				if block > 0 then
+					GameTooltip:AddDoubleLine(STAT_BLOCK, block.."%", ttsubh.r, ttsubh.g, ttsubh.b, 1, 1, 1)
+				end
+			end
+			GameTooltip:Show()
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
+				TopPanel:SetAlpha(1)
+			end
+		end,
+		OnLeave = function()
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
+				TopPanel:SetAlpha(0)
+			end
+		end,
 	})
+
+	if not T.classic then
+		Inject("Stat", {
+			OnClick = function() ToggleCharacter("PaperDollFrame") end,
+			OnEnter = function() GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", -3, 26)LP_Stats:GetScript("OnEnter")(LP_Stats) end,
+			OnLeave = function()
+				LP_Stats.hovered = false
+				if C.toppanel.enable == true and C.toppanel.mouseover == true then
+					TopPanel:SetAlpha(0)
+				end
+			end,
+		})
+	end
 end
 
 ----------------------------------------------------------------------------------------

@@ -482,7 +482,7 @@ local function Shared(self, unit)
 			self.TotemBar:CreateBackdrop("Default")
 			self.TotemBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
 			self.TotemBar:SetSize(player_width, 7)
-			self.TotemBar.Destroy = (T.BCC or not T.classic) and true or false
+			self.TotemBar.Destroy = (not T.classic or T.BCC) and true
 
 			for i = 1, 4 do
 				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_Totem"..i, self.TotemBar)
@@ -1159,7 +1159,7 @@ local function Shared(self, unit)
 
 	-- Incoming heal text/bar
 	if C.raidframe.plugins_healcomm == true then
-		if T.classic and not T.BCC then
+		if T.classic then
 			local healBar = CreateFrame("StatusBar", nil, self)
 			healBar:SetAllPoints(self.Health)
 			healBar:SetStatusBarTexture(C.media.texture)
@@ -1552,8 +1552,8 @@ if C.raidframe.auto_position == "DYNAMIC" then
 				maxGroup = C.raidframe.raid_groups
 			end
 			if prevNum ~= maxGroup then
-				-- local offset = (maxGroup - 5) * (C.raidframe.heal_height + 7) + ((maxGroup - ((maxGroup - 5))) * (C.raidframe.heal_height - 26))
-				local offset = (maxGroup - 5) * (C.raidframe.heal_height + 7)
+				-- local offset = (maxGroup - 5) * (C.raidframe.heal_raid_height + 7) + ((maxGroup - ((maxGroup - 5))) * (C.raidframe.heal_raid_height - 26))
+				local offset = (maxGroup - 5) * (C.raidframe.heal_raid_height + 7)
 				if C.unitframe.castbar_icon == true then
 					oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4] + 11, C.position.unitframes.player_castbar[5] + offset)
 				else
@@ -1579,8 +1579,8 @@ if C.raidframe.auto_position == "DYNAMIC" then
 elseif C.raidframe.auto_position == "STATIC" then
 	local function Reposition()
 		if C.raidframe.layout == "HEAL" and not C.raidframe.raid_groups_vertical and C.raidframe.raid_groups > 5 then
-			-- local offset = (C.raidframe.raid_groups - 5) * (C.raidframe.heal_height + 7) + ((C.raidframe.raid_groups - ((C.raidframe.raid_groups - 5))) * (C.raidframe.heal_height - 26))
-			local offset = (C.raidframe.raid_groups - 5) * (C.raidframe.heal_height + 7)
+			-- local offset = (C.raidframe.raid_groups - 5) * (C.raidframe.heal_raid_height + 7) + ((C.raidframe.raid_groups - ((C.raidframe.raid_groups - 5))) * (C.raidframe.heal_raid_height - 26))
+			local offset = (C.raidframe.raid_groups - 5) * (C.raidframe.heal_raid_height + 7)
 			if C.unitframe.castbar_icon == true then
 				oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4] + 11, C.position.unitframes.player_castbar[5] + offset)
 			else
