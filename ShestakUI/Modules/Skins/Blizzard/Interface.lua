@@ -238,8 +238,7 @@ local function LoadSkin()
 	T.SkinDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown)
 	T.SkinDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown)
 	T.SkinDropDownBox(CompactUnitFrameProfilesProfileSelector)
-
-	if T.newPatch then
+	if InterfaceOptionsAccessibilityPanelCursorSizeDropdown then
 		T.SkinDropDownBox(InterfaceOptionsAccessibilityPanelCursorSizeDropdown)
 	end
 

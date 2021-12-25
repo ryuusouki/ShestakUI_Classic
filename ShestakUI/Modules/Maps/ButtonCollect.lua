@@ -16,6 +16,11 @@ local buttons = {}
 local collectFrame = CreateFrame("Frame", "ButtonCollectFrame", UIParent)
 local line = math.ceil(C.minimap.size / 20)
 
+local texList = {
+	["136430"] = true,	-- Interface\\Minimap\\MiniMap-TrackingBorder
+	["136467"] = true,	-- Interface\\Minimap\\UI-Minimap-Background
+}
+
 local function SkinButton(f)
 	f:SetPushedTexture(nil)
 	f:SetHighlightTexture(nil)
@@ -27,16 +32,14 @@ local function SkinButton(f)
 		if region:IsVisible() and region:GetObjectType() == "Texture" then
 			local tex = tostring(region:GetTexture())
 
-			if tex and (tex:find("Border") or tex:find("Background") or tex:find("AlphaMask")) then
+			if tex and (texList[tex] or tex:find("Border") or tex:find("Background") or tex:find("AlphaMask")) then
 				region:SetTexture(nil)
 			else
 				region:ClearAllPoints()
 				region:SetPoint("TOPLEFT", f, "TOPLEFT", 2, -2)
 				region:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -2, 2)
 				region:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				if not T.classic then
-					region:SetDrawLayer("ARTWORK") -- FIXME: Black Overlay and/or Border Texture in Classic/BCC
-				end
+				region:SetDrawLayer("ARTWORK")
 				if f:GetName() == "PS_MinimapButton" then
 					region.SetPoint = T.dummy
 				end
