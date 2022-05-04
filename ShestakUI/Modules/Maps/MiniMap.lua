@@ -12,7 +12,7 @@ MinimapAnchor:CreatePanel("ClassColor", C.minimap.size, C.minimap.size, unpack(C
 ----------------------------------------------------------------------------------------
 -- Disable Minimap Cluster
 MinimapCluster:EnableMouse(false)
-if T.classic then
+if T.Classic then
 	MinimapCluster:SetPoint("TOPRIGHT", 0, 100) -- Prevent scaling for right panels
 	MinimapCluster:Kill()
 end
@@ -42,7 +42,7 @@ MinimapZoomIn:Hide()
 MinimapZoomOut:Hide()
 
 -- Hide Blob Ring
-if not T.classic then
+if T.Mainline or T.WOTLK then
 	Minimap:SetArchBlobRingScalar(0)
 	Minimap:SetQuestBlobRingScalar(0)
 end
@@ -64,7 +64,7 @@ MiniMapMailIcon:SetTexture("Interface\\AddOns\\ShestakUI\\Media\\Textures\\Mail.
 MiniMapMailIcon:SetSize(16, 16)
 
 -- Move QueueStatus icon
-if not T.classic then
+if T.Mainline then
 	QueueStatusFrame:SetClampedToScreen(true)
 	QueueStatusFrame:SetFrameStrata("TOOLTIP")
 	QueueStatusMinimapButton:ClearAllPoints()
@@ -86,12 +86,12 @@ end
 
 -- Hide world map button
 MiniMapWorldMapButton:Hide()
-if T.classic then
+if T.Classic then
 	MiniMapWorldMapButton.Show = T.dummy
 end
 
 -- Garrison icon
-if not T.classic then
+if T.Mainline then
 	if C.minimap.garrison_icon == true then
 		GarrisonLandingPageMinimapButton:SetScale(0.75)
 		hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
@@ -105,7 +105,7 @@ if not T.classic then
 end
 
 -- Instance Difficulty icon
-if not T.classic then
+if T.Mainline or T.WOTLK then
 	MiniMapInstanceDifficulty:SetParent(Minimap)
 	MiniMapInstanceDifficulty:ClearAllPoints()
 	MiniMapInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 3, 2)
@@ -113,7 +113,7 @@ if not T.classic then
 end
 
 -- Guild Instance Difficulty icon
-if not T.classic then
+if T.Mainline then
 	GuildInstanceDifficulty:SetParent(Minimap)
 	GuildInstanceDifficulty:ClearAllPoints()
 	GuildInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", -2, 2)
@@ -121,7 +121,7 @@ if not T.classic then
 end
 
 -- Challenge Mode icon
-if not T.classic then
+if T.Mainline then
 	MiniMapChallengeMode:SetParent(Minimap)
 	MiniMapChallengeMode:ClearAllPoints()
 	MiniMapChallengeMode:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", -2, -2)
@@ -129,7 +129,7 @@ if not T.classic then
 end
 
 -- Invites icon
-if not T.classic then
+if T.Mainline or T.WOTLK then
 	GameTimeCalendarInvitesTexture:ClearAllPoints()
 	GameTimeCalendarInvitesTexture:SetParent(Minimap)
 	GameTimeCalendarInvitesTexture:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 0, 0)
@@ -155,7 +155,7 @@ if StreamingIcon then
 end
 
 -- GhostFrame
-if not T.classic then
+if T.Mainline then
 	GhostFrame:StripTextures()
 	GhostFrame:SetTemplate("Overlay")
 	GhostFrame:StyleButton()
@@ -212,14 +212,14 @@ local micromenu = {
 	end},
 	{text = TALENTS_BUTTON, notCheckable = 1, func = function()
 		if not PlayerTalentFrame then
-			if T.classic and not T.BCC then
+			if T.Vanilla then
 				PlayerTalentFrame_LoadUI()
 			else
 				TalentFrame_LoadUI()
 			end
 		end
 		if T.level >= 10 then
-			if T.classic then
+			if T.Classic then
 				ToggleTalentFrame()
 			else
 				ShowUIPanel(PlayerTalentFrame)
@@ -299,21 +299,25 @@ local micromenu = {
 		ToggleFrame(LootHistoryFrame)
 	end},
 }
-if T.classic then
-	tremove(micromenu, 14)
+if T.Classic then
+	if T.Vanilla or T.TBC then
+		tremove(micromenu, 14)
+	end
 	tremove(micromenu, 12)
 	tremove(micromenu, 11)
 	tremove(micromenu, 10)
 	tremove(micromenu, 9)
 	tremove(micromenu, 6)
-	tremove(micromenu, 4)
+	if T.Vanilla or T.TBC then
+		tremove(micromenu, 4)
+	end
 end
 
-if not T.classic and not IsTrialAccount() and not C_StorePublic.IsDisabledByParentalControls() then
+if T.Mainline and not IsTrialAccount() and not C_StorePublic.IsDisabledByParentalControls() then
 	tinsert(micromenu, {text = BLIZZARD_STORE, notCheckable = 1, func = function() StoreMicroButton:Click() end})
 end
 
-if not T.classic and T.level == MAX_PLAYER_LEVEL then
+if T.Mainline and T.level == MAX_PLAYER_LEVEL then
 	tinsert(micromenu, {text = RATED_PVP_WEEKLY_VAULT, notCheckable = 1, func = function()
 		if not WeeklyRewardsFrame then
 			WeeklyRewards_LoadUI()
@@ -322,7 +326,7 @@ if not T.classic and T.level == MAX_PLAYER_LEVEL then
 	end})
 end
 
-if not T.classic then
+if T.Mainline then
 	local frame = CreateFrame("Frame")
 	frame:RegisterEvent("GARRISON_SHOW_LANDING_PAGE")
 	frame:SetScript("OnEvent", function()
@@ -353,7 +357,7 @@ Minimap:SetScript("OnMouseUp", function(self, button)
 		else
 			EasyMenu(micromenu, menuFrame, "cursor", -160, 0, "MENU")
 		end
-	elseif (not T.classic or T.BCC) and button == "MiddleButton" then
+	elseif not T.Vanilla and button == "MiddleButton" then
 		if position:match("LEFT") then
 			ToggleDropDownMenu(nil, nil, MiniMapTrackingDropDown, "cursor", 0, 0, "MENU", 2)
 		else
@@ -366,7 +370,7 @@ end)
 
 -- Set Square Map Mask
 Minimap:SetMaskTexture(C.media.blank)
-if not T.classic then
+if T.Mainline or T.WOTLK then
 	Minimap:SetArchBlobRingAlpha(0)
 	Minimap:SetQuestBlobRingAlpha(0)
 end
@@ -394,17 +398,17 @@ end
 ----------------------------------------------------------------------------------------
 --	Tracking icon
 ----------------------------------------------------------------------------------------
-if not T.classic or T.BCC then
+if not T.Vanilla then
 	if C.minimap.tracking_icon then
 		MiniMapTrackingBackground:Hide()
 		MiniMapTracking:ClearAllPoints()
-		if not T.BCC then
+		if T.Classic then
+			MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", -4, 0)
+			MiniMapTrackingBorder:Hide()
+		else
 			MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", 0, -4)
 			MiniMapTrackingButton:SetHighlightTexture(nil)
 			MiniMapTrackingButtonBorder:Hide()
-		else
-			MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", -4, 0)
-			MiniMapTrackingBorder:Hide()
 		end
 		MiniMapTrackingIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		MiniMapTrackingIcon:SetSize(16, 16)
@@ -439,7 +443,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Battlefield icon (Classic)
 ----------------------------------------------------------------------------------------
-if T.classic then
+if T.Classic then
 	MiniMapBattlefieldFrame:ClearAllPoints()
 	MiniMapBattlefieldFrame:SetPoint("TOPRIGHT", MinimapAnchor, "TOPRIGHT", 2, 2)
 	MiniMapBattlefieldBorder:Hide()
@@ -449,11 +453,11 @@ if T.classic then
 	BattlegroundShine:Hide()
 
 	MiniMapBattlefieldFrame:CreateBackdrop("ClassColor")
-	if T.BCC then
-		MiniMapBattlefieldFrame.backdrop:SetPoint("TOPLEFT", MiniMapBattlefieldIcon, 4, -4)
-		MiniMapBattlefieldFrame.backdrop:SetPoint("BOTTOMRIGHT", MiniMapBattlefieldIcon, -4, 4)
-	else
+	if T.Vanilla then
 		MiniMapBattlefieldFrame.backdrop:SetPoint("TOPLEFT", MiniMapBattlefieldIcon, -2, 2)
 		MiniMapBattlefieldFrame.backdrop:SetPoint("BOTTOMRIGHT", MiniMapBattlefieldIcon, 2, -2)
+	else
+		MiniMapBattlefieldFrame.backdrop:SetPoint("TOPLEFT", MiniMapBattlefieldIcon, 4, -4)
+		MiniMapBattlefieldFrame.backdrop:SetPoint("BOTTOMRIGHT", MiniMapBattlefieldIcon, -4, 4)
 	end
 end

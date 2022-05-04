@@ -20,7 +20,7 @@ local elements = {}
 local activeElements = {}
 
 local PetBattleFrameHider
-if _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_CLASSIC and _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+if _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_CLASSIC and _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC then --TODO: Update for WotLK Classic Project ID
 	PetBattleFrameHider = CreateFrame('Frame', (global or parent) .. '_PetBattleFrameHider', UIParent, 'SecureHandlerStateTemplate')
 	PetBattleFrameHider:SetAllPoints()
 	PetBattleFrameHider:SetFrameStrata('LOW')
@@ -295,7 +295,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 		end
 
 		if(not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
-			if(not oUF:IsClassic()) then
+			if(oUF:IsMainline() or oUF:IsWOTLK()) then
 				object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
 				object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
 			end
@@ -388,22 +388,49 @@ local function walkObject(object, unit)
 	return initObject(unit, style, styleFunc, header, object, object:GetChildren())
 end
 
+--[[ oUF:IsMainline()
+Used to determine if running retail.
+
+* self - the global oUF object
+--]]
+function oUF:IsMainline()
+	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE
+end
+
 --[[ oUF:IsClassic()
-Used to determine if running retail or classic.
+Used to determine if running any version of classic.
 
 * self - the global oUF object
 --]]
 function oUF:IsClassic()
-	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC -- TODO: Add WotLK: Classic when there is a project ID
 end
 
---[[ oUF:IsBCC()
+--[[ oUF:IsVanilla()
+Used to determine if running World of Warcraft: Classic.
+
+* self - the global oUF object
+--]]
+function oUF:IsVanilla()
+	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC
+end
+
+--[[ oUF:IsTBC()
 Used to determine if running Burning Crusade Classic.
 
 * self - the global oUF object
 --]]
-function oUF:IsBCC()
+function oUF:IsTBC()
 	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+end
+
+--[[ oUF:IsWOTLK()
+Used to determine if running Wrath of the Lich King Classic.
+
+* self - the global oUF object
+--]]
+function oUF:IsWOTLK()
+    return false -- TODO: Change when there is a project ID
 end
 
 --[[ oUF:RegisterInitCallback(func)

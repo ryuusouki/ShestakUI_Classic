@@ -1,31 +1,15 @@
 local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
---	Message for BG Queues (temporary)
+--	NOOP functions not found in some versions of Classic
 ----------------------------------------------------------------------------------------
-local hasShown = false
+if not IsFlying then
+	IsFlying = T.dummy
+end
 
-local PvPMessage = CreateFrame("Frame")
-PvPMessage:RegisterEvent("UPDATE_BATTLEFIELD_STATUS")
-PvPMessage:SetScript("OnEvent", function()
-	for i = 1, MAX_BATTLEFIELD_QUEUES do
-		local status = GetBattlefieldStatus(i)
-		if status == "confirm" then
-			if not hasShown and (StaticPopup_Visible("CONFIRM_BATTLEFIELD_ENTRY") or StaticPopup_Visible("CONFIRM_WARGAME_ENTRY")) then
-				hasShown = true
-				print("|cffffff00".."There is an issue with entering BGs from the StaticPopupDialog in WoW Classic. Please enter by right clicking the minimap icon.".."|r")
-			else
-				hasShown = false
-			end
-		end
-	end
-end)
-
-----------------------------------------------------------------------------------------
---	NOOP / Pass Functions not found in Classic
-----------------------------------------------------------------------------------------
-IsFlying = _G.IsFlying or T.dummy
-UnitInVehicle = _G.UnitInVehicle or T.dummy
+if not UnitInVehicle then
+	UnitInVehicle = T.dummy
+end
 
 ----------------------------------------------------------------------------------------
 --	Specialization Functions
@@ -61,7 +45,7 @@ local isCaster = {
 function T.GetSpecializationRole()
 	local tree = T.GetSpecialization()
 	-- eventually check for tank stats in case a tanking in a non-traditional spec (mostly for warriors)
-	if (T.class == "PALADIN" and tree == 2) or (T.class == "WARRIOR" and (tree == 3 or GetBonusBarOffset() == 2)) or (T.class == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) then
+	if (T.class == "PALADIN" and tree == 2) or (T.class == "WARRIOR" and (tree == 3 or GetBonusBarOffset() == 2)) or (T.class == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) or (T.class == "DEATHKNIGHT" and AuraUtil.FindAuraByName(GetSpellInfo(48263), "player")) then
 		return "TANK"
 	elseif (T.class == "PALADIN" and tree == 1) or (T.class == "DRUID" and tree == 3) or (T.class == "SHAMAN" and tree == 3) or (T.class == "PRIEST" and tree ~= 3) then
 		return "HEALER"
@@ -92,27 +76,29 @@ function T.GetSpecializationRole()
 end
 
 -- Add later
-GetAverageItemLevel = _G.GetAverageItemLevel or function()
-	local slotName = {
-		"HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "WristSlot",
-		"HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot",
-		"Trinket0Slot", "Trinket1Slot", "MainHandSlot", "SecondaryHandSlot", "RangedSlot", "AmmoSlot"
-	}
+if not GetAverageItemLevel then
+	GetAverageItemLevel = function()
+		local slotName = {
+			"HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "WristSlot",
+			"HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot",
+			"Trinket0Slot", "Trinket1Slot", "MainHandSlot", "SecondaryHandSlot", "RangedSlot", "AmmoSlot"
+		}
 
-	local total, slot, itn, level = 0, 0, 0, 0
+		local total, slot, itn, level = 0, 0, 0, 0
 
-	for i in pairs(slotName) do
-		slot = GetInventoryItemLink("player", GetInventorySlotInfo(slotName[i]))
-		if slot then
-			itn = itn + 1
-			level = select(4, GetItemInfo(slot)) or 0
-			total = total + level
+		for i in pairs(slotName) do
+			slot = GetInventoryItemLink("player", GetInventorySlotInfo(slotName[i]))
+			if slot then
+				itn = itn + 1
+				level = select(4, GetItemInfo(slot)) or 0
+				total = total + level
+			end
 		end
+
+		if total < 1 or itn < 1 then return 0 end
+
+		return floor(total / itn), floor(total / itn)
 	end
-
-	if total < 1 or itn < 1 then return 0 end
-
-	return floor(total / itn), floor(total / itn)
 end
 
 ----------------------------------------------------------------------------------------
@@ -125,18 +111,20 @@ local threatColors = {
 	[3] = {1, 0, 0}
 }
 
-GetThreatStatusColor = _G.GetThreatStatusColor or function(statusIndex)
-	if not (type(statusIndex) == "number" and statusIndex >= 0 and statusIndex < 4) then
-		statusIndex = 0
-	end
+if not GetThreatStatusColor then
+	GetThreatStatusColor = _G.GetThreatStatusColor or function(statusIndex)
+		if not (type(statusIndex) == "number" and statusIndex >= 0 and statusIndex < 4) then
+			statusIndex = 0
+		end
 
-	return threatColors[statusIndex][1], threatColors[statusIndex][2], threatColors[statusIndex][3]
+		return threatColors[statusIndex][1], threatColors[statusIndex][2], threatColors[statusIndex][3]
+	end
 end
 
 ----------------------------------------------------------------------------------------
---	Check if Classic or Burning Crusade Classic
+--	Check if Classic or Burning Crusade Classic / Wrath of the Lich King Classic
 ----------------------------------------------------------------------------------------
-if T.BCC then return end
+if not T.Vanilla then return end
 
 ----------------------------------------------------------------------------------------
 --	LibClassicSpellActionCount (by Ennea)

@@ -22,7 +22,7 @@ oUF.colors.honor = {
 local function IsPlayerMaxLevel()
 	local maxLevel = GetRestrictedAccountData()
 	if(maxLevel == 0) then
-		maxLevel = T.classic and GetMaxPlayerLevel() or GetMaxLevelForPlayerExpansion()
+		maxLevel = T.Classic and GetMaxPlayerLevel() or GetMaxLevelForPlayerExpansion()
 	end
 
 	return maxLevel == UnitLevel('player')
@@ -183,9 +183,15 @@ local function Visibility(self, event, unit)
 	local element = self.Experience
 	local shouldEnable
 
-	if(oUF:IsClassic()) then
+	if(oUF:IsClassic() or oUF:IsTBC()) then
 		if(UnitLevel('player') ~= element.__accountMaxLevel) then
 			shouldEnable = true
+		end
+	elseif(oUF:IsWOTLK()) then
+		if(not UnitHasVehicleUI('player')) then
+			if(UnitLevel('player') ~= element.__accountMaxLevel) then
+				shouldEnable = true
+			end
 		end
 	else
 		if(not UnitHasVehicleUI('player')) then

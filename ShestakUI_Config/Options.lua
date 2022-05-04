@@ -7,11 +7,19 @@ local L = ns
 ----------------------------------------------------------------------------------------
 -- Temporary Function
 local function IsClassicBuild()
-	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC -- TODO: Add WotLK: Classic project ID
 end
 
-local function IsBCCBuild()
+local function IsVanillaBuild()
+	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC
+end
+
+local function IsTBCBuild()
 	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+end
+
+local function IsWOTLKBuild()
+	return false -- TODO: Add project ID once available
 end
 
 local function HideOptions(list)
@@ -704,9 +712,17 @@ do
 		hide_maw_buffs
 	}
 
-	if IsClassicBuild() then
+	local wotlk = {
+		hide_banner,
+		hide_talking_head,
+		hide_maw_buffs
+	}
+
+	if IsClassicBuild() and not IsWOTLKBuild() then
 		HideOptions(classic)
 		move_blizzard:SetPoint("TOPLEFT", vehicle_mouseover, "BOTTOMLEFT", 16, 0)
+	elseif IsWOTLKBuild() then
+		HideOptions(wotlk)
 	end
 end
 
@@ -1247,7 +1263,7 @@ do
 	extra_height_auto:HookScript("OnClick", toggleOptions)
 	extra_health_height:HookScript("OnShow", toggleOptions)
 
-	local classic = {
+	local vanilla = {
 		show_focus,
 		show_arena,
 		arena_on_right,
@@ -1256,7 +1272,7 @@ do
 		plugins_absorbs
 	}
 
-	local bcc = {
+	local classic = {
 		plugins_enemy_spec,
 		plugins_absorbs
 	}
@@ -1266,11 +1282,11 @@ do
 		plugins_power_spark
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
-		HideOptions(classic)
+	if IsVanillaBuild() then
+		HideOptions(vanilla)
 		show_target_target:SetPoint("LEFT", show_pet, "RIGHT", 248, 0)
-	elseif IsBCCBuild() then
-		HideOptions(bcc)
+	elseif IsTBCBuild() or IsWOTLKBuild() then
+		HideOptions(classic)
 	else
 		HideOptions(retail)
 	end
@@ -1327,9 +1343,20 @@ do
 		totem_other
 	}
 
-	if IsClassicBuild() then
+	local wotlk = {
+		arcane,
+		chi,
+		stagger,
+		holy,
+		shard,
+		totem_other
+	}
+
+	if IsClassicBuild() and not IsWOTLKBuild() then
 		HideOptions(classic)
 		totem:SetPoint("TOPLEFT", rune, "BOTTOMLEFT", -20, 0)
+	elseif IsWOTLKBuild() then
+		HideOptions(wotlk)
 	end
 end
 
@@ -1601,13 +1628,13 @@ do
 	local boss_buffs = ns.CreateNumberSlider(parent, "boss_buffs", nil, nil, 0, 3, 1, true, L_GUI_UF_BOSS_BUFFS, L_GUI_UF_BOSS_BUFFS_DESC)
 	boss_buffs:SetPoint("LEFT", boss_debuffs, "RIGHT", 120, 0)
 
-	local classic = {
+	local vanilla = {
 		focus_debuffs,
 		fot_debuffs
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
-		HideOptions(classic)
+	if IsVanillaBuild() then
+		HideOptions(vanilla)
 	end
 end
 
@@ -1867,12 +1894,23 @@ do
 		mount
 	}
 
+	local wotlk = {
+		talents,
+		show_shift,
+		unit_role,
+		mount
+	}
+
 	local retail = {
 		vendor_price
 	}
 
-	if IsClassicBuild() then
+	if IsVanillaBuild() or IsTBCBuild() then
 		HideOptions(classic)
+		average_lvl:SetPoint("TOPLEFT", show_shift, "BOTTOMLEFT", 0, 0)
+		raid_icon:SetPoint("TOPLEFT", average_lvl, "BOTTOMLEFT", 0, -24)
+	elseif IsWOTLKBuild() then
+		HideOptions(wotlk)
 		average_lvl:SetPoint("TOPLEFT", show_shift, "BOTTOMLEFT", 0, 0)
 		raid_icon:SetPoint("TOPLEFT", average_lvl, "BOTTOMLEFT", 0, -24)
 	else
@@ -2116,23 +2154,23 @@ do
 	local mob_color = ns.CreateColourPicker(parent, "mob_color", true)
 	mob_color:SetPoint("TOPLEFT", mob_color_enable, "BOTTOMLEFT", 24, -4)
 
-	local classic = {
+	local vanilla = {
 		distance, -- broken in Classic
 		quests,
 		offtank_color,
 		extra_color,
 	}
 
-	local bcc = {
+	local classic = {
 		quests,
 		offtank_color,
 		extra_color,
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
+	if IsVanillaBuild() then
+		HideOptions(vanilla)
+	elseif IsClassicBuild() then
 		HideOptions(classic)
-	elseif IsBCCBuild() then
-		HideOptions(bcc)
 	end
 end
 
@@ -2233,7 +2271,7 @@ do
 		dk_runes
 	}
 
-	if IsClassicBuild() then
+	if IsClassicBuild() and not IsWOTLKBuild() then
 		HideOptions(classic)
 	end
 end
@@ -2512,21 +2550,21 @@ do
 	local says_thanks = ns.CreateCheckBox(parent, "says_thanks")
 	says_thanks:SetPoint("TOPLEFT", safari_hat, "BOTTOMLEFT", 0, 0)
 
-	local classic = {
+	local vanilla = {
 		drinking,
 		safari_hat
 	}
 
-	local bcc = {
+	local classic = {
 		safari_hat
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
+	if IsVanillaBuild() then
 		HideOptions(classic)
 		pull_countdown:ClearAllPoints()
 		pull_countdown:SetPoint("TOPLEFT", flask_food_auto, "BOTTOMLEFT", -20, 0)
-	elseif IsBCCBuild() then
-		HideOptions(bcc)
+	elseif IsClassicBuild() then
+		HideOptions(classic)
 	end
 end
 
@@ -2606,20 +2644,12 @@ do
 		auto_role
 	}
 
-	local bcc = {
-		screenshot,
-		solve_artifact,
-		auto_role
-	}
-
 	local retail = {
 		dismount_stand,
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
+	if IsClassicBuild() then
 		HideOptions(classic)
-	elseif IsBCCBuild() then
-		HideOptions(bcc)
 	else
 		HideOptions(retail)
 	end
@@ -2721,12 +2751,12 @@ do
 	enable:HookScript("OnClick", toggleListButton)
 	ListButton:HookScript("OnShow", toggleListButton)
 
-	local classic = {
+	local vanilla = {
 		show_inarena
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
-		HideOptions(classic)
+	if IsVanillaBuild() then
+		HideOptions(vanilla)
 	end
 end
 
@@ -2790,12 +2820,12 @@ do
 	enable:HookScript("OnClick", toggleListButton)
 	ListButton:HookScript("OnShow", toggleListButton)
 
-	local classic = {
+	local vanilla = {
 		show_inarena
 	}
 
-	if IsClassicBuild() and not IsBCCBuild() then
-		HideOptions(classic)
+	if IsVanillaBuild() then
+		HideOptions(vanilla)
 	end
 end
 
@@ -2930,8 +2960,14 @@ do
 		currency_misc
 	}
 
-	if IsClassicBuild() then
+	local wotlk = {
+		currency_archaeology
+	}
+
+	if IsClassicBuild() and not IsWOTLKBuild() then
 		HideOptions(classic)
+	elseif IsWOTLKBuild() then
+		HideOptions(wotlk)
 	end
 end
 
@@ -2966,8 +3002,15 @@ do
 		archaeology
 	}
 
-	if IsClassicBuild() then
+	local wotlk = {
+		profession_tabs, -- TODO: Fix for Classic
+		archaeology
+	}
+
+	if IsClassicBuild() and not IsWOTLKBuild() then
 		HideOptions(classic)
+	elseif IsWOTLKBuild() then
+		HideOptions(wotlk)
 	end
 end
 
@@ -3011,7 +3054,7 @@ do
 		chars_currency
 	}
 
-	if IsClassicBuild() then
+	if IsClassicBuild() and not IsWOTLKBuild() then
 		HideOptions(classic)
 	end
 end

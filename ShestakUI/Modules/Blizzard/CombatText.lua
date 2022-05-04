@@ -21,13 +21,13 @@ else
 end
 
 -- WoW Classic requires combat text be enabled to display incoming damage
-if T.classic then
+if T.Classic then
 	SetCVar("enableFloatingCombatText", 1)
 end
 
 -- Detect vehicle
 local function SetUnit()
-	if T.classic then
+	if T.Vanilla or T.TBC then
 		ct.unit = "player"
 	else
 		if UnitHasVehicleUI("player") then
@@ -368,9 +368,7 @@ local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGOUT")
 frame:SetScript("OnEvent", function(_, event)
 	if event == "PLAYER_LOGOUT" then
-		if not T.classic then
-			SetCVar("floatingCombatTextCombatHealing", 1)
-		end
+		SetCVar("floatingCombatTextCombatHealing", 1)
 		SetCVar("floatingCombatTextCombatDamage", 1)
 	end
 end)
@@ -441,7 +439,7 @@ xCT:RegisterEvent("UNIT_POWER_UPDATE")
 if C.combattext.dk_runes and T.class == "DEATHKNIGHT" then
 	xCT:RegisterEvent("RUNE_POWER_UPDATE")
 end
-if not T.classic then
+if T.Mainline or T.WOTLK then
 	xCT:RegisterEvent("UNIT_ENTERED_VEHICLE")
 	xCT:RegisterEvent("UNIT_EXITING_VEHICLE")
 end
@@ -828,7 +826,7 @@ if C.combattext.damage then
 			elseif eventType == "RANGE_DAMAGE" then
 				local spellId, spellName, _, amount, _, _, _, _, _, critical = select(12, CombatLogGetCurrentEventInfo())
 				if amount >= C.combattext.treshold then
-					if T.classic and not T.BCC then
+					if T.Vanilla then
 						spellId = T.GetSpellID(spellName)
 					end
 					local rawamount = amount
@@ -869,7 +867,7 @@ if C.combattext.damage then
 			elseif eventType == "SPELL_DAMAGE" or (eventType == "SPELL_PERIODIC_DAMAGE" and C.combattext.dot_damage) then
 				local spellId, spellName, spellSchool, amount, _, _, _, _, _, critical = select(12, CombatLogGetCurrentEventInfo())
 				if amount >= C.combattext.treshold then
-					if T.classic and not T.BCC then
+					if T.Vanilla then
 						spellId = T.GetSpellID(spellName)
 					end
 					local color = {}
@@ -940,7 +938,7 @@ if C.combattext.damage then
 				xCT4:AddMessage(missType)
 			elseif eventType == "SPELL_MISSED" or eventType == "RANGE_MISSED" then
 				local spellId, spellName, _, missType = select(12, CombatLogGetCurrentEventInfo())
-				if T.classic and not T.BCC then
+				if T.Vanilla then
 					spellId = T.GetSpellID(spellName)
 				end
 				if missType == "IMMUNE" and spellId == 204242 then return end -- Consecration slow
@@ -957,7 +955,7 @@ if C.combattext.damage then
 				xCT4:AddMessage(missType)
 			elseif eventType == "SPELL_DISPEL" and C.combattext.dispel then
 				local id, effect, _, etype = select(15, CombatLogGetCurrentEventInfo())
-				if T.classic and not T.BCC then
+				if T.Vanilla then
 					id = T.GetSpellID(effect)
 				end
 				local color
@@ -981,7 +979,7 @@ if C.combattext.damage then
 				xCT3:AddMessage(ACTION_SPELL_DISPEL..": "..effect..msg, unpack(color))
 			elseif eventType == "SPELL_STOLEN" and C.combattext.dispel then
 				local id, effect = select(15, CombatLogGetCurrentEventInfo())
-				if T.classic and not T.BCC then
+				if T.Vanilla then
 					id = T.GetSpellID(effect)
 				end
 				local color = {1, 0.5, 0}
@@ -1000,7 +998,7 @@ if C.combattext.damage then
 				xCT3:AddMessage(ACTION_SPELL_STOLEN..": "..effect..msg, unpack(color))
 			elseif eventType == "SPELL_INTERRUPT" and C.combattext.interrupt then
 				local id, effect = select(15, CombatLogGetCurrentEventInfo())
-				if T.classic and not T.BCC then
+				if T.Vanilla then
 					id = T.GetSpellID(effect)
 				end
 				local color = {1, 0.5, 0}
@@ -1043,7 +1041,7 @@ if C.combattext.healing then
 			if eventType == "SPELL_HEAL" or (eventType == "SPELL_PERIODIC_HEAL" and C.combattext.show_hots) then
 				if C.combattext.healing then
 					local spellId, spellName, _, amount, overhealing, _, critical = select(12, CombatLogGetCurrentEventInfo())
-					if T.classic and not T.BCC then
+					if T.Vanilla then
 						spellId = T.GetSpellID(spellName)
 					end
 					if T.healfilter[spellId] then
@@ -1113,7 +1111,7 @@ if C.combattext.merge_aoe_spam then
 	for spell in pairs(T.aoespam) do
 		local name = GetSpellInfo(spell)
 		if not name then
-			if T.classic then
+			if T.Classic then
 				print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to EsreverWoW.|r")
 			else
 				print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Shestak.|r")
@@ -1124,7 +1122,7 @@ if C.combattext.merge_aoe_spam then
 	for spell in pairs(T.merge) do
 		local name = GetSpellInfo(spell)
 		if not name then
-			if T.classic then
+			if T.Classic then
 				print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to EsreverWoW.|r")
 			else
 				print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Shestak.|r")
@@ -1137,7 +1135,7 @@ if C.combattext.healing then
 	for spell in pairs(T.healfilter) do
 		local name = GetSpellInfo(spell)
 		if not name then
-			if T.classic then
+			if T.Classic then
 				print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to EsreverWoW.|r")
 			else
 				print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Shestak.|r")

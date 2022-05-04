@@ -33,7 +33,7 @@ local function Shared(self, unit)
 			or (unit and unit:find("boss%d")) and "boss" or unit
 
 	-- Menu
-	if ((not T.classic or T.BCC) and (unit == "arena" and C.unitframe.show_arena == true and unit ~= "arenatarget")) or (unit == "boss" and C.unitframe.show_boss == true) then
+	if (not T.Vanilla and (unit == "arena" and C.unitframe.show_arena == true and unit ~= "arenatarget")) or (unit == "boss" and C.unitframe.show_boss == true) then
 		self:SetAttribute("type2", "focus")
 		self:SetAttribute("type3", "macro")
 		self:SetAttribute("macrotext3", "/clearfocus")
@@ -45,7 +45,7 @@ local function Shared(self, unit)
 	-- Backdrop for every units
 	self:CreateBackdrop("Default")
 	self:SetFrameStrata("BACKGROUND")
-	self.backdrop:SetFrameLevel(T.classic and 2 or 3)
+	self.backdrop:SetFrameLevel(T.Classic and 2 or 3)
 
 	-- Health bar
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
@@ -60,7 +60,7 @@ local function Shared(self, unit)
 	self.Health:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 0)
 	self.Health:SetStatusBarTexture(C.media.texture)
 
-	if T.classic then
+	if T.Classic then
 		self.Health.frequentUpdates = true
 	end
 
@@ -302,7 +302,7 @@ local function Shared(self, unit)
 		end
 
 		-- Rune bar
-		if not T.classic and C.unitframe_class_bar.rune == true and T.class == "DEATHKNIGHT" then
+		if (T.Mainline or T.WOTLK) and C.unitframe_class_bar.rune == true and T.class == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", self:GetName().."_RuneBar", self)
 			self.Runes:CreateBackdrop("Default")
 			self.Runes:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
@@ -327,7 +327,7 @@ local function Shared(self, unit)
 			end
 		end
 
-		if not T.classic and T.class == "MAGE" then
+		if T.Mainline and T.class == "MAGE" then
 			-- Arcane Charge bar
 			if C.unitframe_class_bar.arcane == true then
 				self.ArcaneCharge = CreateFrame("Frame", self:GetName().."_ArcaneChargeBar", self)
@@ -354,7 +354,7 @@ local function Shared(self, unit)
 			end
 		end
 
-		if not T.classic and T.class == "MONK" then
+		if T.Mainline and T.class == "MONK" then
 			-- Chi bar
 			if C.unitframe_class_bar.chi == true then
 				self.HarmonyBar = CreateFrame("Frame", self:GetName().."_HarmonyBar", self)
@@ -399,7 +399,7 @@ local function Shared(self, unit)
 		end
 
 		-- Holy Power bar
-		if not T.classic and C.unitframe_class_bar.holy == true and T.class == "PALADIN" then
+		if T.Mainline and C.unitframe_class_bar.holy == true and T.class == "PALADIN" then
 			self.HolyPower = CreateFrame("Frame", self:GetName().."_HolyPowerBar", self)
 			self.HolyPower:CreateBackdrop("Default")
 			self.HolyPower:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
@@ -424,7 +424,7 @@ local function Shared(self, unit)
 		end
 
 		-- Soul Shards bar
-		if not T.classic and C.unitframe_class_bar.shard == true and T.class == "WARLOCK" then
+		if T.Mainline and C.unitframe_class_bar.shard == true and T.class == "WARLOCK" then
 			self.SoulShards = CreateFrame("Frame", self:GetName().."_SoulShardsBar", self)
 			self.SoulShards:CreateBackdrop("Default")
 			self.SoulShards:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
@@ -455,7 +455,7 @@ local function Shared(self, unit)
 			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
 			self.ComboPoints:SetSize(player_width, 7)
 
-			local maxComboPoints = T.classic and 5 or 6
+			local maxComboPoints = T.Classic and 5 or 6
 			for i = 1, maxComboPoints do
 				self.ComboPoints[i] = CreateFrame("StatusBar", self:GetName().."_Combo"..i, self.ComboPoints)
 				self.ComboPoints[i]:SetSize((player_width - 5) / maxComboPoints, 7)
@@ -467,7 +467,7 @@ local function Shared(self, unit)
 				self.ComboPoints[i]:SetStatusBarTexture(C.media.texture)
 			end
 
-			if T.classic then
+			if T.Classic then
 				self.ComboPoints[1]:SetStatusBarColor(0.9, 0.1, 0.1)
 				self.ComboPoints[2]:SetStatusBarColor(0.9, 0.1, 0.1)
 				self.ComboPoints[3]:SetStatusBarColor(0.9, 0.9, 0.1)
@@ -482,7 +482,7 @@ local function Shared(self, unit)
 			self.TotemBar:CreateBackdrop("Default")
 			self.TotemBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
 			self.TotemBar:SetSize(player_width, 7)
-			self.TotemBar.Destroy = (not T.classic or T.BCC) and true
+			self.TotemBar.Destroy = not T.Vanilla and true
 
 			for i = 1, 4 do
 				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_Totem"..i, self.TotemBar)
@@ -504,7 +504,7 @@ local function Shared(self, unit)
 		end
 
 		-- Totem bar for other classes
-		if not T.classic and C.unitframe_class_bar.totem == true and C.unitframe_class_bar.totem_other == true and T.class ~= "SHAMAN" then
+		if T.Mainline and C.unitframe_class_bar.totem == true and C.unitframe_class_bar.totem_other == true and T.class ~= "SHAMAN" then
 			self.TotemBar = CreateFrame("Frame", self:GetName().."_TotemBar", self)
 			self.TotemBar:SetFrameLevel(self.Health:GetFrameLevel() + 2)
 			self.TotemBar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
@@ -609,7 +609,7 @@ local function Shared(self, unit)
 		end
 
 		-- Power Spark
-		if T.classic and C.unitframe.plugins_power_spark == true then
+		if T.Classic and C.unitframe.plugins_power_spark == true then
 			self.PowerSpark = CreateFrame("StatusBar", nil, self.Power)
 			self.PowerSpark:SetFrameLevel(self.Power:GetFrameLevel() + 3)
 			self.PowerSpark:SetAllPoints()
@@ -617,7 +617,7 @@ local function Shared(self, unit)
 		end
 
 		-- Absorbs value
-		if not T.classic and C.unitframe.plugins_absorbs == true then
+		if T.Mainline and C.unitframe.plugins_absorbs == true then
 			self.Absorbs = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 			self.Absorbs:SetPoint("LEFT", self.Health, "LEFT", 4, 0)
 			self:Tag(self.Absorbs, "[Absorbs]")
@@ -625,7 +625,7 @@ local function Shared(self, unit)
 	end
 
 	-- Counter bar (Darkmoon Fair)
-	if not T.classic and (unit == "player" or unit == "pet") then
+	if T.Mainline and (unit == "player" or unit == "pet") then
 		self.CounterBar = CreateFrame("StatusBar", self:GetName().."_CounterBar", self)
 		self.CounterBar:CreateBackdrop("Default")
 		self.CounterBar:SetWidth(221)
@@ -747,10 +747,10 @@ local function Shared(self, unit)
 			self.Debuffs.initialAnchor = "BOTTOMRIGHT"
 			self.Debuffs["growth-y"] = "UP"
 			self.Debuffs["growth-x"] = "LEFT"
-			if (not T.classic and T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune == true)
+			if ((T.Mainline or T.WOTLK) and T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune == true)
 			or ((T.class == "DRUID" or T.class == "ROGUE") and C.unitframe_class_bar.combo == true and C.unitframe_class_bar.combo_old ~= true)
 			or (T.class == "SHAMAN" and C.unitframe_class_bar.totem == true)
-			or (not T.classic and T.class == "WARLOCK" and C.unitframe_class_bar.shard == true) then
+			or (T.Mainline and T.class == "WARLOCK" and C.unitframe_class_bar.shard == true) then
 				self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19)
 			else
 				self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 5)
@@ -784,7 +784,7 @@ local function Shared(self, unit)
 				self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
 				self.ComboPoints:SetSize(player_width, 7)
 
-				local maxComboPoints = T.classic and 5 or 6
+				local maxComboPoints = T.Classic and 5 or 6
 				for i = 1, maxComboPoints do
 					self.ComboPoints[i] = CreateFrame("StatusBar", self:GetName().."_Combo"..i, self.ComboPoints)
 					self.ComboPoints[i]:SetSize((player_width - 5) / maxComboPoints, 7)
@@ -796,7 +796,7 @@ local function Shared(self, unit)
 					self.ComboPoints[i]:SetStatusBarTexture(C.media.texture)
 				end
 
-				if T.classic then
+				if T.Classic then
 					self.ComboPoints[1]:SetStatusBarColor(0.9, 0.1, 0.1)
 					self.ComboPoints[2]:SetStatusBarColor(0.9, 0.1, 0.1)
 					self.ComboPoints[3]:SetStatusBarColor(0.9, 0.9, 0.1)
@@ -806,14 +806,14 @@ local function Shared(self, unit)
 			end
 
 			-- Enemy specialization
-			if not T.classic and C.unitframe.plugins_enemy_spec == true then
+			if T.Mainline and C.unitframe.plugins_enemy_spec == true then
 				self.EnemySpec = T.SetFontString(self.Power, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 				self.EnemySpec:SetTextColor(1, 0, 0)
 				self.EnemySpec:SetPoint("BOTTOM", self.Power, "BOTTOM", 0, -1)
 			end
 
 			-- Quest icon
-			if not T.classic then
+			if T.Mainline then
 				self.QuestIndicator = self.Health:CreateTexture(nil, "OVERLAY")
 				self.QuestIndicator:SetSize(20, 20)
 				self.QuestIndicator:SetPoint("CENTER", self.Health, "CENTER", -20, 0)
@@ -853,7 +853,7 @@ local function Shared(self, unit)
 		self.Castbar.Overlay = CreateFrame("Frame", nil, self.Castbar)
 		self.Castbar.Overlay:SetTemplate("Default")
 		self.Castbar.Overlay:SetFrameStrata("BACKGROUND")
-		self.Castbar.Overlay:SetFrameLevel(T.classic and 2 or 3)
+		self.Castbar.Overlay:SetFrameLevel(T.Classic and 2 or 3)
 		self.Castbar.Overlay:SetPoint("TOPLEFT", -2, 2)
 		self.Castbar.Overlay:SetPoint("BOTTOMRIGHT", 2, -2)
 
@@ -1085,7 +1085,7 @@ local function Shared(self, unit)
 	end
 
 	if C.unitframe.show_boss and unit == "boss" then
-		if not T.classic then
+		if T.Mainline then
 			self.AlternativePower = CreateFrame("StatusBar", nil, self.Health, BackdropTemplateMixin and "BackdropTemplate" or nil)
 			self.AlternativePower:SetFrameLevel(self.Health:GetFrameLevel() + 1)
 			self.AlternativePower:SetHeight(5)
@@ -1161,7 +1161,7 @@ local function Shared(self, unit)
 
 	-- Incoming heal text/bar
 	if C.raidframe.plugins_healcomm == true then
-		if T.classic then
+		if T.Classic then
 			local healBar = CreateFrame("StatusBar", nil, self)
 			healBar:SetAllPoints(self.Health)
 			healBar:SetStatusBarTexture(C.media.texture)
@@ -1200,7 +1200,7 @@ local function Shared(self, unit)
 				overAbsorb = oa
 			}
 
-			if T.classic then
+			if T.Classic then
 				self.HealthPrediction.frequentUpdates = true
 			end
 		end
@@ -1263,7 +1263,7 @@ if C.unitframe.show_pet == true then
 	pet:SetSize(pet_width, 16 + (C.unitframe.extra_health_height / 2))
 end
 
-if (not T.classic or T.BCC) and C.unitframe.show_focus == true then
+if not T.Vanilla and C.unitframe.show_focus == true then
 	local focus = oUF:Spawn("focus", "oUF_Focus")
 	focus:SetPoint(unpack(C.position.unitframes.focus))
 	focus:SetSize(pet_width, 16 + (C.unitframe.extra_health_height / 2))
@@ -1296,7 +1296,7 @@ if C.unitframe.show_boss == true then
 	end
 end
 
-if (not T.classic or T.BCC) and C.unitframe.show_arena == true then
+if not T.Vanilla and C.unitframe.show_arena == true then
 	local arena = {}
 	for i = 1, 5 do
 		arena[i] = oUF:Spawn("arena"..i, "oUF_Arena"..i)
@@ -1331,7 +1331,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Arena preparation(by Blizzard)(../Blizzard_ArenaUI/Blizzard_ArenaUI.lua)
 ----------------------------------------------------------------------------------------
-if not T.classic and C.unitframe.show_arena == true then
+if T.Mainline and C.unitframe.show_arena == true then
 	local arenaprep = {}
 	for i = 1, 5 do
 		arenaprep[i] = CreateFrame("Frame", "oUF_ArenaPrep"..i, UIParent)
@@ -1414,7 +1414,7 @@ local moving = false
 SlashCmdList.TEST_UF = function()
 	if InCombatLockdown() then print("|cffffff00"..ERR_NOT_IN_COMBAT.."|r") return end
 	if not moving then
-		if T.classic and not T.BCC then
+		if T.Vanilla then
 			for _, frames in pairs({"oUF_Target", "oUF_TargetTarget", "oUF_Pet"}) do
 				if _G[frames] then
 					_G[frames].oldunit = _G[frames].unit
@@ -1430,7 +1430,7 @@ SlashCmdList.TEST_UF = function()
 			end
 		end
 
-		-- if not T.classic and C.unitframe.show_arena == true then
+		-- if T.Mainline and C.unitframe.show_arena == true then
 		-- for i = 1, 5 do
 		-- _G["oUF_Arena"..i].oldunit = _G["oUF_Arena"..i].unit
 		-- _G["oUF_Arena"..i].Trinket.Hide = T.dummy
@@ -1458,7 +1458,7 @@ SlashCmdList.TEST_UF = function()
 		end
 		moving = true
 	else
-		if T.classic and not T.BCC then
+		if T.Vanilla then
 			for _, frames in pairs({"oUF_Target", "oUF_TargetTarget", "oUF_Pet"}) do
 				if _G[frames] then
 					_G[frames].unit = _G[frames].oldunit
@@ -1474,7 +1474,7 @@ SlashCmdList.TEST_UF = function()
 			end
 		end
 
-		-- if not T.classic and C.unitframe.show_arena == true then
+		-- if T.Mainline and C.unitframe.show_arena == true then
 		-- for i = 1, 5 do
 		-- _G["oUF_Arena"..i].Trinket.Hide = nil
 		-- _G["oUF_Arena"..i]:SetAttribute("unit", _G["oUF_Arena"..i].oldunit)
@@ -1565,10 +1565,12 @@ if C.raidframe.auto_position == "DYNAMIC" then
 			if prevNum ~= maxGroup then
 				-- local offset = (maxGroup - 5) * (C.raidframe.heal_raid_height + 7) + ((maxGroup - ((maxGroup - 5))) * (C.raidframe.heal_raid_height - 26))
 				local offset = (maxGroup - 5) * (C.raidframe.heal_raid_height + 7)
-				if C.unitframe.castbar_icon == true then
-					oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4] + 11, C.position.unitframes.player_castbar[5] + offset)
-				else
-					oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4], C.position.unitframes.player_castbar[5] + offset)
+				if C.unitframe.unit_castbar then
+					if C.unitframe.castbar_icon == true then
+						oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4] + 11, C.position.unitframes.player_castbar[5] + offset)
+					else
+						oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4], C.position.unitframes.player_castbar[5] + offset)
+					end
 				end
 
 				player:SetPoint(C.position.unitframes.player[1], C.position.unitframes.player[2], C.position.unitframes.player[3], C.position.unitframes.player[4], C.position.unitframes.player[5] + offset)

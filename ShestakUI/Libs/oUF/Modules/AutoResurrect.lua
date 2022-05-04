@@ -1,5 +1,5 @@
 local T, C, L, _ = unpack(select(2, ...))
-if C.unitframe.enable ~= true or C.raidframe.plugins_auto_resurrection ~= true or C.misc.click_cast == true or T.class == "DEMONHUNTER" or T.class == "HUNTER" or T.class == "MAGE" or T.class == "ROGUE" or T.class == "WARRIOR" or (T.classic and T.class == "WARLOCK") then return end
+if C.unitframe.enable ~= true or C.raidframe.plugins_auto_resurrection ~= true or C.misc.click_cast == true or T.class == "DEMONHUNTER" or T.class == "HUNTER" or T.class == "MAGE" or T.class == "ROGUE" or T.class == "WARRIOR" or (T.Classic and T.class == "WARLOCK") then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on FreebAutoRez(by Freebaser)
@@ -9,10 +9,29 @@ local oUF = ns.oUF
 
 local classList
 
-if T.classic then
+if T.Vanilla or T.TBC then
 	classList = {
 		["DRUID"] = {
 			combat = GetSpellInfo(20484),	-- Rebirth
+		},
+		["PALADIN"] = {
+			ooc = GetSpellInfo(7328),		-- Redemption
+		},
+		["PRIEST"] = {
+			ooc = GetSpellInfo(2006),		-- Resurrection
+		},
+		["SHAMAN"] = {
+			ooc = GetSpellInfo(2008),		-- Ancestral Spirit
+		}
+	}
+elseif T.WOTLK then
+	classList = {
+		["DEATHKNIGHT"] = {
+			combat = GetSpellInfo(61999),	-- Raise Ally
+		},
+		["DRUID"] = {
+			combat = GetSpellInfo(20484),	-- Rebirth
+			ooc = GetSpellInfo(50769),	-- Revive
 		},
 		["PALADIN"] = {
 			ooc = GetSpellInfo(7328),		-- Redemption

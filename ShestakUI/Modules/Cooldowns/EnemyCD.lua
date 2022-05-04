@@ -131,7 +131,7 @@ local StartTimer = function(sGUID, sID, sName)
 	icon:SetScript("OnUpdate", IconUpdate)
 	icon:SetScript("OnEnter", OnEnter)
 	icon:SetScript("OnLeave", GameTooltip_Hide)
-	if T.classic and HasWandEquipped() then
+	if T.Classic and HasWandEquipped() then
 		local wandID = GetInventoryItemID("player", 18)
 		local wandSpeed = GetItemCooldown(wandID)
 		if wandSpeed < 1.5 then wandSpeed = 1.5 end
@@ -151,7 +151,7 @@ local OnEvent = function(_, event)
 		local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, _, _, _, _, spellID, spellName = CombatLogGetCurrentEventInfo()
 
 		if eventType == "SPELL_CAST_SUCCESS" and sourceName ~= T.name then
-			if T.classic and not T.BCC then
+			if T.Vanilla then
 				spellID = T.GetSpellID(spellName)
 			end
 			local _, instanceType = IsInInstance()
@@ -179,7 +179,7 @@ end
 for spell in pairs(T.EnemySpells) do
 	local name = GetSpellInfo(spell)
 	if not name then
-		if T.classic then
+		if T.Classic then
 			print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to EsreverWoW.|r")
 		else
 			print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Shestak.|r")
@@ -193,7 +193,7 @@ addon:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 addon:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 SlashCmdList.EnemyCD = function()
-	if T.classic then
+	if T.Classic then
 		StartTimer(UnitGUID(T.name), 6552)
 		StartTimer(UnitGUID(T.name), 19244)
 		StartTimer(UnitGUID(T.name), 15487)
