@@ -8,9 +8,9 @@ if C.unitframe.enable ~= true or C.filger.enable ~= true then return end
 ----------------------------------------------------------------------------------------
 
 --[[
-How to add Abilities in Filger For Dummies (http://shestak.org/forum/showthread.php?t=126)
+How to add Abilities in Filger For Dummies (https://web.archive.org/web/20210305093450/http://shestak.org/forum/showthread.php?t=126)
 
-What is filger???? Filger creates icons/bars for aura tracking which appear on screen, like so (http://shestak.org/forum/picture.php?albumid=9&pictureid=44).
+What is filger???? Filger creates icons/bars for aura tracking which appear on screen, like so (https://web.archive.org/web/20160627223910/http://shestak.org/forum/picture.php?albumid=9&pictureid=44).
 
 
 In order to add a aura to Filger, you need to:
@@ -104,10 +104,10 @@ Note 1: Description of the contents of a single cell with a spell
 		4.	Active duration
 
 Note 2: An illustrative example of each section in how it displays on screen.
-	http://shestak.org/forum/picture.php?albumid=9&pictureid=44
+	https://web.archive.org/web/20160627223910/http://shestak.org/forum/picture.php?albumid=9&pictureid=44
 
 
-Note: To help facilitatein the above process, it is recommended that you open the .lua file using a decent text editor such as Notepad++ (see example - http://shestak.org/forum/picture.php?albumid=9&pictureid=45).
+Note: To help facilitatein the above process, it is recommended that you open the .lua file using a decent text editor such as Notepad++ (see example - https://web.archive.org/web/20160627231758/http://shestak.org/forum/picture.php?albumid=9&pictureid=45).
 
 ------
 -- Ravager
@@ -511,8 +511,6 @@ C["filger_spells"] = {
 			{spellID = 18803, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Skyfire Swiftness (Physical Haste, Proc) [Thundering Skyfire Diamond]
 			{spellID = 39959, unitID = "player", caster = "player", filter = "BUFF"},
-			-- Skyflare Swiftness (Physical Haste, Proc) [Thundering Skyflare Diamond]
-			{spellID = 55379, unitID = "player", caster = "player", filter = "BUFF"},
 
 			-- Enchants
 			-- Executioner [Enchant Weapon - Executioner]
@@ -964,8 +962,6 @@ C["filger_spells"] = {
 			-- Meta Gems
 			-- Skyfire Swiftness (Physical Haste, Proc) [Thundering Skyfire Diamond]
 			{spellID = 39959, unitID = "player", caster = "player", filter = "BUFF"},
-			-- Skyflare Swiftness (Physical Haste, Proc) [Thundering Skyflare Diamond]
-			{spellID = 55379, unitID = "player", caster = "player", filter = "BUFF"},
 		},
 		{
 			Name = "T_DEBUFF_ICON",
@@ -2164,8 +2160,6 @@ C["filger_spells"] = {
 			{spellID = 18803, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Skyfire Swiftness (Physical Haste, Proc) [Thundering Skyfire Diamond]
 			{spellID = 39959, unitID = "player", caster = "player", filter = "BUFF"},
-			-- Skyflare Swiftness (Physical Haste, Proc) [Thundering Skyflare Diamond]
-			{spellID = 55379, unitID = "player", caster = "player", filter = "BUFF"},
 
 			-- Enchants
 			-- Executioner [Enchant Weapon - Executioner]
@@ -3072,8 +3066,6 @@ C["filger_spells"] = {
 			-- Meta Gems
 			-- Skyfire Swiftness (Physical Haste, Proc) [Thundering Skyfire Diamond]
 			{spellID = 39959, unitID = "player", caster = "player", filter = "BUFF"},
-			-- Skyflare Swiftness (Physical Haste, Proc) [Thundering Skyflare Diamond]
-			{spellID = 55379, unitID = "player", caster = "player", filter = "BUFF"},
 
 			-- Enchants
 			-- Executioner [Enchant Weapon - Executioner]
@@ -3698,8 +3690,6 @@ C["filger_spells"] = {
 			{spellID = 18803, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Skyfire Swiftness (Physical Haste, Proc) [Thundering Skyfire Diamond]
 			{spellID = 39959, unitID = "player", caster = "player", filter = "BUFF"},
-			-- Skyflare Swiftness (Physical Haste, Proc) [Thundering Skyflare Diamond]
-			{spellID = 55379, unitID = "player", caster = "player", filter = "BUFF"},
 
 			-- Enchants
 			-- Executioner [Enchant Weapon - Executioner]
@@ -4648,8 +4638,6 @@ C["filger_spells"] = {
 			-- Meta Gems
 			-- Skyfire Swiftness (Physical Haste, Proc) [Thundering Skyfire Diamond]
 			{spellID = 39959, unitID = "player", caster = "player", filter = "BUFF"},
-			-- Skyflare Swiftness (Physical Haste, Proc) [Thundering Skyflare Diamond]
-			{spellID = 55379, unitID = "player", caster = "player", filter = "BUFF"},
 
 			-- Enchants
 			-- Executioner [Enchant Weapon - Executioner]

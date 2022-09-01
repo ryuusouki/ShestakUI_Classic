@@ -3,9 +3,9 @@ if(select(2, UnitClass('player')) ~= 'DEATHKNIGHT') then return end
 local _, ns = ...
 local oUF = ns.oUF
 
-if(oUF:IsClassic()) then return end
+if(oUF:IsClassic() and not oUF:IsWrath()) then return end
 
-local runemap = {1, 2, 3, 4, 5, 6}
+local runemap = oUF:IsWrath() and {1, 2, 5, 6, 3, 4} or {1, 2, 3, 4, 5, 6}
 local hasSortOrder = false
 
 local function onUpdate(self, elapsed)
@@ -38,27 +38,43 @@ local function descSort(runeAID, runeBID)
 	end
 end
 
-local function UpdateColor(self, event)
+local function UpdateColor(self, event, runeID, alt)
 	local element = self.Runes
 
-	local spec = GetSpecialization() or 0
+	local validRuneType = (runeID and type(runeID) == "number" and runeID >= 0 and runeID <= 6)
 
 	local color
-	if(spec > 0 and spec < 4 and element.colorSpec) then
-		color = self.colors.runes[spec]
+	if(oUF:IsWrath()) then
+		local runeType = validRuneType and GetRuneType(runeID) or alt
+		color = runeType and self.colors.runes[runeType] or self.colors.power.RUNES
 	else
-		color = self.colors.power.RUNES
+		local spec = GetSpecialization() or 0
+		if(spec > 0 and spec < 4 and element.colorSpec) then
+			color = self.colors.runes[spec]
+		else
+			color = self.colors.power.RUNES
+		end
 	end
 
 	local r, g, b = color[1], color[2], color[3]
 
-	for index = 1, #element do
-		element[index]:SetStatusBarColor(r, g, b)
+	if(oUF:IsWrath() and validRuneType) then
+		element[runeID]:SetStatusBarColor(r, g, b)
 
-		local bg = element[index].bg
+		local bg = element[runeID].bg
 		if(bg) then
 			local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
+		end
+	elseif(not oUF:IsWrath()) then
+		for index = 1, #element do
+			element[index]:SetStatusBarColor(r, g, b)
+
+			local bg = element[index].bg
+			if(bg) then
+				local mu = bg.multiplier or 1
+				bg:SetVertexColor(r * mu, g * mu, b * mu)
+			end
 		end
 	end
 
@@ -120,6 +136,10 @@ local function Update(self, event)
 				rune:SetScript('OnUpdate', onUpdate)
 			end
 
+			if(oUF:IsWrath()) then
+				UpdateColor(self, event, runeID)
+			end
+
 			rune:Show()
 		end
 	end
@@ -169,8 +189,12 @@ local function Enable(self, unit)
 			end
 		end
 
-		self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED', ColorPath)
+		if(oUF:IsMainline()) then
+			self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED', ColorPath)
+		end
 		self:RegisterEvent('RUNE_POWER_UPDATE', Path, true)
+		self:RegisterEvent('RUNE_TYPE_UPDATE', ColorPath, true)
+		self:RegisterEvent('PLAYER_ENTERING_WORLD', Path, true)
 
 		return true
 	end
@@ -183,8 +207,12 @@ local function Disable(self)
 			element[i]:Hide()
 		end
 
-		self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED', ColorPath)
+		if(oUF:IsMainline()) then
+			self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED', ColorPath)
+		end
 		self:UnregisterEvent('RUNE_POWER_UPDATE', Path)
+		self:UnregisterEvent('RUNE_TYPE_UPDATE', ColorPath)
+		self:UnregisterEvent('PLAYER_ENTERING_WORLD', Path)
 	end
 end
 

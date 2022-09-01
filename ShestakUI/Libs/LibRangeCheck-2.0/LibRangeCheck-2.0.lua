@@ -48,7 +48,8 @@ if not lib then
     return
 end
 
-local IsClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local IsClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) -- TODO: Add WotLK: Classic when there is a project ID
+local IsWrath = select(4, GetBuildInfo()) >= 30400 and select(4, GetBuildInfo()) < 40000 -- TODO: Change when there is a project ID
 
 -- << STATIC CONFIG
 
@@ -296,8 +297,8 @@ local FriendItems  = {
         21991, -- Heavy Netherweave Bandage
         34721, -- Frostweave Bandage
         34722, -- Heavy Frostweave Bandage
-        --        38643, -- Thick Frostweave Bandage
-        --        38640, -- Dense Frostweave Bandage
+        38643, -- Thick Frostweave Bandage
+        38640, -- Dense Frostweave Bandage
     },
     [20] = {
         21519, -- Mistletoe
@@ -1172,7 +1173,7 @@ function lib:activate()
         self.frame = frame
         frame:RegisterEvent("LEARNED_SPELL_IN_TAB")
         frame:RegisterEvent("CHARACTER_POINTS_CHANGED")
-        if not IsClassic then
+        if not IsClassic or IsWrath then
             frame:RegisterEvent("PLAYER_TALENT_UPDATE")
         end
         frame:RegisterEvent("SPELLS_CHANGED")

@@ -21,7 +21,7 @@ function T.GetSpecialization(isInspect, isPet, specGroup)
 	local specIndex
 	local max = 0
 	for tabIndex = 1, GetNumTalentTabs() do
-		local spent = select(3, GetTalentTabInfo(tabIndex, "player", nil))
+		local spent = select(3, GetTalentTabInfo(tabIndex, "player", T.Wrath and specGroup))
 		if spent > max then
 			specIndex = tabIndex
 			max = spent
@@ -31,6 +31,7 @@ function T.GetSpecialization(isInspect, isPet, specGroup)
 end
 
 local isCaster = {
+	DEATHKNIGHT = {nil, nil, nil},
 	DRUID = {true},					-- Balance
 	HUNTER = {nil, nil, nil},
 	MAGE = {true, true, true},
@@ -45,7 +46,7 @@ local isCaster = {
 function T.GetSpecializationRole()
 	local tree = T.GetSpecialization()
 	-- eventually check for tank stats in case a tanking in a non-traditional spec (mostly for warriors)
-	if (T.class == "PALADIN" and tree == 2) or (T.class == "WARRIOR" and (tree == 3 or GetBonusBarOffset() == 2)) or (T.class == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) or (T.class == "DEATHKNIGHT" and AuraUtil.FindAuraByName(GetSpellInfo(48263), "player")) then
+	if (T.class == "PALADIN" and tree == 2) or (T.class == "WARRIOR" and (tree == 3 or GetBonusBarOffset() == 2)) or (T.class == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) or (T.class == "DEATHKNIGHT" and T.CheckPlayerBuff(GetSpellInfo(48263))) then
 		return "TANK"
 	elseif (T.class == "PALADIN" and tree == 1) or (T.class == "DRUID" and tree == 3) or (T.class == "SHAMAN" and tree == 3) or (T.class == "PRIEST" and tree ~= 3) then
 		return "HEALER"

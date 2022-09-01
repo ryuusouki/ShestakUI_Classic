@@ -11,9 +11,13 @@ frame:SetScript("OnEvent", function()
 	MainMenuBar:EnableMouse(false)
 	PetActionBarFrame:EnableMouse(false)
 	StanceBarFrame:EnableMouse(false)
-	if T.Mainline then
+
+	if T.Mainline or T.Wrath then
 		OverrideActionBar:SetScale(0.00001)
 		OverrideActionBar:EnableMouse(false)
+	end
+
+	if T.Mainline then
 		MicroButtonAndBagsBar:SetScale(0.00001)
 		MicroButtonAndBagsBar:EnableMouse(false)
 		MicroButtonAndBagsBar:ClearAllPoints()
@@ -47,7 +51,7 @@ frame:SetScript("OnEvent", function()
 		element:SetAlpha(0)
 	end
 
-	if T.Mainline then
+	if T.Mainline or T.Wrath then
 		for i = 1, 6 do
 			local b = _G["OverrideActionBarButton"..i]
 			b:UnregisterAllEvents()
@@ -64,7 +68,7 @@ frame:SetScript("OnEvent", function()
 		hooksecurefunc("TalentFrame_LoadUI", function()
 			if T.Classic then
 				PlayerTalentFrame:UnregisterEvent("CHARACTER_POINTS_CHANGED")
-				if T.WOTLK then
+				if T.Wrath then
 					PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 				end
 			else
@@ -380,7 +384,7 @@ if T.Classic then
 				ActionButton_ShowGrid(button, reason)
 				button:SetAttribute("statehidden", true)
 
-				if T.WOTLK then
+				if T.Wrath then
 					if _G["VehicleMenuBarActionButton"..i] then
 						_G["VehicleMenuBarActionButton"..i]:SetAttribute("statehidden", true)
 					end

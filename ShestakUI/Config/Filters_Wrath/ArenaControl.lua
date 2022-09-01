@@ -31,7 +31,6 @@ T.ArenaControl = {
 	-- Hunter
 	[SpellName(60210)] = 5,		-- Freezing Arrow Effect
 	[SpellName(3355)] = 5,		-- Freezing Trap
-	[SpellName(19410)] = 5,		-- Improved Concussive Shot
 	[SpellName(24394)] = 5,		-- Intimidation
 	[SpellName(1513)] = 5,		-- Scare Beast
 	[SpellName(19503)] = 5,		-- Scatter Shot
@@ -52,9 +51,7 @@ T.ArenaControl = {
 	[SpellName(20066)] = 5,		-- Repentance
 	[SpellName(20170)] = 5,		-- Stun (Seal of Justice Proc)
 	[SpellName(10326)] = 5,		-- Turn Evil
-	[SpellName(2878)] = 5,		-- Turn Undead
 	-- Priest
-	[SpellName(15269)] = 5,		-- Blackout
 	[SpellName(605)] = 5,		-- Mind Control
 	[SpellName(64044)] = 5,		-- Psychic Horror
 	[SpellName(8122)] = 5,		-- Psychic Scream
@@ -80,7 +77,6 @@ T.ArenaControl = {
 	[SpellName(12809)] = 5,		-- Concussion Blow
 	[SpellName(20253)] = 5,		-- Intercept Stun
 	[SpellName(5246)] = 5,		-- Intimidating Shout
-	[SpellName(12798)] = 5,		-- Revenge Stun
 	[SpellName(46968)] = 5,		-- Shockwave
 	-- Racial
 	[SpellName(20549)] = 5,		-- War Stomp
@@ -103,8 +99,7 @@ T.ArenaControl = {
 
 	-- Roots
 	[SpellName(53534)] = 3,		-- Chains of Ice
-	[SpellName(16979)] = 3,		-- Feral Charge - Bear
-	[SpellName(25999)] = 3,		-- Charge (Boar)
+	[SpellName(45334)] = 3,		-- Feral Charge Effect
 	[SpellName(339)] = 3,		-- Entangling Roots
 	[SpellName(19975)] = 3,		-- Entangling Roots (Nature's Grasp)
 	[SpellName(19185)] = 3,		-- Entrapment
@@ -155,12 +150,11 @@ T.ArenaControl = {
 	[SpellName(31884)] = 1,		-- Avenging Wrath
 	[SpellName(1044)] = 1,		-- Hand of Freedom
 	[SpellName(1022)] = 1,		-- Hand of Protection
-	[SpellName(1038)] = 1,		-- Hand of Sacrifice
-	[SpellName(6940)] = 1,		-- Hand of Salvation
+	[SpellName(6940)] = 1,		-- Hand of Sacrifice
+	[SpellName(1038)] = 1,		-- Hand of Salvation
 	[SpellName(20216)] = 1,		-- Divine Favor
 	[SpellName(31842)] = 1,		-- Divine Illumination
 	-- Priest
-	[SpellName(47585)] = 1,		-- Dispersion
 	[SpellName(64843)] = 1,		-- Divine Hymn
 	[SpellName(6346)] = 1,		-- Fear Ward
 	[SpellName(47788)] = 1,		-- Guardian Spirit
@@ -172,7 +166,7 @@ T.ArenaControl = {
 	[SpellName(45182)] = 1,		-- Cheating Death
 	[SpellName(51690)] = 1,		-- Killing Spree
 	[SpellName(51713)] = 1,		-- Shadow Dance
-	[SpellName(57933] = 1,		-- Tricks of the Trade
+	[SpellName(57933)] = 1,		-- Tricks of the Trade
 	-- Shaman
 	[SpellName(8178)] = 1,		-- Grounding Totem
 	[SpellName(16190)] = 1,		-- Mana Tide Totem
@@ -185,6 +179,7 @@ T.ArenaControl = {
 	[SpellName(12292)] = 1,		-- Death Wish
 	[SpellName(1719)] = 1,		-- Recklessness
 	[SpellName(20230)] = 1,		-- Retaliation
+	[SpellName(12328)] = 1,		-- Sweeping Strikes
 	-- Racial
 	[SpellName(26297)] = 1,		-- Berserking
 	-- [SpellName(20572)] = 1,		-- Blood Fury (Physical)

@@ -42,7 +42,7 @@ MinimapZoomIn:Hide()
 MinimapZoomOut:Hide()
 
 -- Hide Blob Ring
-if T.Mainline or T.WOTLK then
+if T.Mainline then
 	Minimap:SetArchBlobRingScalar(0)
 	Minimap:SetQuestBlobRingScalar(0)
 end
@@ -81,7 +81,11 @@ if MiniMapLFGFrame then
 	MiniMapLFGFrame:SetPoint("TOP", Minimap, "TOP", 1, 6)
 	MiniMapLFGFrame:SetScale(0.8)
 	MiniMapLFGFrame:SetHighlightTexture(nil)
-	MiniMapLFGBorder:Hide()
+	if T.Wrath then
+		MiniMapLFGFrameBorder:Hide()
+	else
+		MiniMapLFGBorder:Hide()
+	end
 end
 
 -- Hide world map button
@@ -105,7 +109,7 @@ if T.Mainline then
 end
 
 -- Instance Difficulty icon
-if T.Mainline or T.WOTLK then
+if T.Mainline or T.Wrath then
 	MiniMapInstanceDifficulty:SetParent(Minimap)
 	MiniMapInstanceDifficulty:ClearAllPoints()
 	MiniMapInstanceDifficulty:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 3, 2)
@@ -129,7 +133,7 @@ if T.Mainline then
 end
 
 -- Invites icon
-if T.Mainline or T.WOTLK then
+if T.Mainline or T.Wrath then
 	GameTimeCalendarInvitesTexture:ClearAllPoints()
 	GameTimeCalendarInvitesTexture:SetParent(Minimap)
 	GameTimeCalendarInvitesTexture:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 0, 0)
@@ -370,7 +374,7 @@ end)
 
 -- Set Square Map Mask
 Minimap:SetMaskTexture(C.media.blank)
-if T.Mainline or T.WOTLK then
+if T.Mainline then
 	Minimap:SetArchBlobRingAlpha(0)
 	Minimap:SetQuestBlobRingAlpha(0)
 end
@@ -403,8 +407,13 @@ if not T.Vanilla then
 		MiniMapTrackingBackground:Hide()
 		MiniMapTracking:ClearAllPoints()
 		if T.Classic then
-			MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", -4, 0)
-			MiniMapTrackingBorder:Hide()
+			if T.Wrath then
+				MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", -1, -5)
+				MiniMapTrackingButtonBorder:Hide()
+			else
+				MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", -4, 0)
+				MiniMapTrackingBorder:Hide()
+			end
 		else
 			MiniMapTracking:SetPoint("BOTTOMLEFT", MinimapAnchor, "BOTTOMLEFT", 0, -4)
 			MiniMapTrackingButton:SetHighlightTexture(nil)

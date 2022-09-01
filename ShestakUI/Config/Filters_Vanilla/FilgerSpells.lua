@@ -8,9 +8,9 @@ if C.unitframe.enable ~= true or C.filger.enable ~= true then return end
 ----------------------------------------------------------------------------------------
 
 --[[
-How to add Abilities in Filger For Dummies (http://shestak.org/forum/showthread.php?t=126)
+How to add Abilities in Filger For Dummies (https://web.archive.org/web/20210305093450/http://shestak.org/forum/showthread.php?t=126)
 
-What is filger???? Filger creates icons/bars for aura tracking which appear on screen, like so (http://shestak.org/forum/picture.php?albumid=9&pictureid=44).
+What is filger???? Filger creates icons/bars for aura tracking which appear on screen, like so (https://web.archive.org/web/20160627223910/http://shestak.org/forum/picture.php?albumid=9&pictureid=44).
 
 
 In order to add a aura to Filger, you need to:
@@ -104,10 +104,10 @@ Note 1: Description of the contents of a single cell with a spell
 		4.	Active duration
 
 Note 2: An illustrative example of each section in how it displays on screen.
-	http://shestak.org/forum/picture.php?albumid=9&pictureid=44
+	https://web.archive.org/web/20160627223910/http://shestak.org/forum/picture.php?albumid=9&pictureid=44
 
 
-Note: To help facilitatein the above process, it is recommended that you open the .lua file using a decent text editor such as Notepad++ (see example - http://shestak.org/forum/picture.php?albumid=9&pictureid=45).
+Note: To help facilitatein the above process, it is recommended that you open the .lua file using a decent text editor such as Notepad++ (see example - https://web.archive.org/web/20160627231758/http://shestak.org/forum/picture.php?albumid=9&pictureid=45).
 
 ------
 -- Ravager
@@ -2670,7 +2670,7 @@ C["filger_spells"] = {
 			-- Bloodthirst
 			{spellID = 23885, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Death Wish
-			{spellID = 12292, unitID = "player", caster = "player", filter = "BUFF"},
+			{spellID = 12328, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Flurry
 			{spellID = 12966, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Last Stand
@@ -2682,7 +2682,7 @@ C["filger_spells"] = {
 			-- Shield Wall
 			{spellID = 871, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Sweeping Strikes
-			{spellID = 12328, unitID = "player", caster = "player", filter = "BUFF"},
+			{spellID = 12292, unitID = "player", caster = "player", filter = "BUFF"},
 		},
 		{
 			Name = "P_PROC_ICON",
@@ -2905,7 +2905,7 @@ C["filger_spells"] = {
 			-- Concussion Blow
 			{spellID = 12809, filter = "CD"},
 			-- Death Wish
-			{spellID = 12292, filter = "CD"},
+			{spellID = 12328, filter = "CD"},
 			-- Disarm
 			{spellID = 676, filter = "CD", absID = true},
 			-- Intercept
@@ -2937,7 +2937,7 @@ C["filger_spells"] = {
 			-- Shield Wall
 			{spellID = 871, filter = "CD"},
 			-- Sweeping Strikes
-			{spellID = 12328, filter = "CD"},
+			{spellID = 12292, filter = "CD"},
 			-- Taunt
 			{spellID = 355, filter = "CD"},
 			-- Thunder Clap

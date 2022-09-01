@@ -1,7 +1,7 @@
 # ShestakUI (Classic / Burning Crusade Classic) [!["Open Issues"](https://img.shields.io/github/issues-raw/EsreverWoW/ShestakUI_Classic.svg)](https://github.com/EsreverWoW/ShestakUI_Classic/issues) [![Discord](https://img.shields.io/discord/610506253306822663.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/mWGp4ac)
 ShestakUI is a modular, lightweight, all-in-one overhaul for the World of Warcraft interface. It aims to streamline and clean up the interface, removing unnecessary frills and wasted space as well as fill in some of the holes left in the default UI.
 
-This version of ShestakUI is meant to retain compatibility modern WoW, while also providing compatibility so that it may additionally function in WoW Classic and Burning Crusade Classic.
+This version of ShestakUI is meant to retain compatibility modern WoW, while also providing compatibility so that it may additionally function in Wrath Classic, Burning Crusade Classic, and WoW Classic.
 
 ## BUGS:
 **If you encounter any bugs, please report them on the [issue tracker](https://github.com/EsreverWoW/ShestakUI_Classic/issues) and I will do my best to correct them.**
@@ -76,11 +76,11 @@ ShestakUI supports and contains language specific code for the following game cl
 - Russian (ruRU)
 
 ## FAQ:
-- [Configuration files and GUI](http://shestak.org/forum/showpost.php?p=415&postcount=2)
-- [ActionBars](http://shestak.org/forum/showpost.php?p=930&postcount=3)
-- [Chat](http://shestak.org/forum/showpost.php?p=931&postcount=4)
-- [Loot](http://shestak.org/forum/showpost.php?p=932&postcount=5)
-- [Raid Frames](http://shestak.org/forum/showpost.php?p=12661&postcount=21)
+- [Configuration files and GUI](https://web.archive.org/web/20201116212307/http://shestak.org/forum/showpost.php?p=415&postcount=2)
+- [ActionBars](https://web.archive.org/web/20201117070900/http://shestak.org/forum/showpost.php?p=930&postcount=3)
+- [Chat](https://web.archive.org/web/20201116170209/http://shestak.org/forum/showpost.php?p=931&postcount=4)
+- [Loot](https://web.archive.org/web/20201117185852/http://shestak.org/forum/showpost.php?p=932&postcount=5)
+- [Raid Frames](https://web.archive.org/web/20201117195736/http://shestak.org/forum/showpost.php?p=12661&postcount=21)
 
 ## Links:
 - [Changelog](https://github.com/EsreverWoW/ShestakUI_Classic/commits)

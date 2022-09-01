@@ -302,13 +302,15 @@ local function Shared(self, unit)
 		end
 
 		-- Rune bar
-		if (T.Mainline or T.WOTLK) and C.unitframe_class_bar.rune == true and T.class == "DEATHKNIGHT" then
+		if (T.Mainline or T.Wrath) and C.unitframe_class_bar.rune == true and T.class == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", self:GetName().."_RuneBar", self)
 			self.Runes:CreateBackdrop("Default")
 			self.Runes:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
 			self.Runes:SetSize(player_width, 7)
-			self.Runes.colorSpec = true
-			self.Runes.sortOrder = "asc"
+			if T.Mainline then
+				self.Runes.colorSpec = true
+				self.Runes.sortOrder = "asc"
+			end
 
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Rune"..i, self.Runes)
@@ -747,7 +749,7 @@ local function Shared(self, unit)
 			self.Debuffs.initialAnchor = "BOTTOMRIGHT"
 			self.Debuffs["growth-y"] = "UP"
 			self.Debuffs["growth-x"] = "LEFT"
-			if ((T.Mainline or T.WOTLK) and T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune == true)
+			if ((T.Mainline or T.Wrath) and T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune == true)
 			or ((T.class == "DRUID" or T.class == "ROGUE") and C.unitframe_class_bar.combo == true and C.unitframe_class_bar.combo_old ~= true)
 			or (T.class == "SHAMAN" and C.unitframe_class_bar.totem == true)
 			or (T.Mainline and T.class == "WARLOCK" and C.unitframe_class_bar.shard == true) then
@@ -1594,10 +1596,12 @@ elseif C.raidframe.auto_position == "STATIC" then
 		if C.raidframe.layout == "HEAL" and not C.raidframe.raid_groups_vertical and C.raidframe.raid_groups > 5 then
 			-- local offset = (C.raidframe.raid_groups - 5) * (C.raidframe.heal_raid_height + 7) + ((C.raidframe.raid_groups - ((C.raidframe.raid_groups - 5))) * (C.raidframe.heal_raid_height - 26))
 			local offset = (C.raidframe.raid_groups - 5) * (C.raidframe.heal_raid_height + 7)
-			if C.unitframe.castbar_icon == true then
-				oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4] + 11, C.position.unitframes.player_castbar[5] + offset)
-			else
-				oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4], C.position.unitframes.player_castbar[5] + offset)
+			if C.unitframe.unit_castbar then
+				if C.unitframe.castbar_icon == true then
+					oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4] + 11, C.position.unitframes.player_castbar[5] + offset)
+				else
+					oUF_Player_Castbar:SetPoint(C.position.unitframes.player_castbar[1], C.position.unitframes.player_castbar[2], C.position.unitframes.player_castbar[3], C.position.unitframes.player_castbar[4], C.position.unitframes.player_castbar[5] + offset)
+				end
 			end
 
 			player:SetPoint(C.position.unitframes.player[1], C.position.unitframes.player[2], C.position.unitframes.player[3], C.position.unitframes.player[4], C.position.unitframes.player[5] + offset)

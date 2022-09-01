@@ -51,7 +51,7 @@ T.RaidBuffs = {
 		{57933, "TOPRIGHT", {0.89, 0.1, 0.1}},				-- Tricks of the Trade
 	},
 	DEATHKNIGHT = {
-		{49016, "TOPRIGHT", {0.89, 0.89, 0.1}},				-- Hysteria
+		{49016, "TOPRIGHT", {0.89, 0.89, 0.1}},				-- Hysteria / Unholy Frenzy
 	},
 	MAGE = {
 															-- Curse Immunity
@@ -731,6 +731,7 @@ T.RaidDebuffs = {
 		[SpellName(29204)] = 4,		-- Inevitable Doom
 		-- [SpellName(55593)] = 3,		-- Necrotic Aura
 	-- Razuvious
+		[SpellName(55550)] = 4,		-- Jagged Knife
 		[SpellName(55470)] = 3,		-- Unbalancing Strike
 	-- Gothik
 		[SpellName(27994)] = 4,		-- Drain Life
@@ -1102,7 +1103,7 @@ if C.raidframe.plugins_pvp_debuffs == true then
 		[SpellName(33786)] = 3,		-- Cyclone
 		[SpellName(339)] = 2,		-- Entangling Roots
 		[SpellName(19975)] = 2,		-- Entangling Roots (Nature's Grasp)
-		[SpellName(16979)] = 2,		-- Feral Charge - Bear
+		[SpellName(45334)] = 2,		-- Feral Charge Effect
 		[SpellName(2637)] = 3,		-- Hibernate
 		[SpellName(22570)] = 3,		-- Maim
 		[SpellName(9005)] = 3,		-- Pounce
@@ -1113,7 +1114,6 @@ if C.raidframe.plugins_pvp_debuffs == true then
 		[SpellName(60210)] = 3,		-- Freezing Arrow Effect
 		[SpellName(3355)] = 3,		-- Freezing Trap Effect
 		[SpellName(2637)] = 3,		-- Hibernate
-		[SpellName(19410)] = 3,		-- Improved Concussive Shot
 		[SpellName(24394)] = 3,		-- Intimidation
 		[SpellName(19503)] = 3,		-- Scatter Shot
 		[SpellName(34490)] = 3,		-- Silencing Shot
@@ -1141,11 +1141,9 @@ if C.raidframe.plugins_pvp_debuffs == true then
 		[SpellName(63529)] = 3,		-- Silenced - Shield of the Templar
 		[SpellName(20170)] = 3,		-- Stun (Seal of Justice Proc)
 		[SpellName(10326)] = 3,		-- Turn Evil
-		[SpellName(2878)] = 3,		-- Turn Undead
 		-- Priest
-		[SpellName(15269)] = 3,		-- Blackout
 		[SpellName(605)] = 3,		-- Mind Control
-		[SpellName(64044] = 3,		-- Psychic Horror
+		[SpellName(64044)] = 3,		-- Psychic Horror
 		[SpellName(8122)] = 3,		-- Psychic Scream
 		[SpellName(9484)] = 3,		-- Shackle Undead
 		[SpellName(15487)] = 3,		-- Silence
@@ -1180,7 +1178,6 @@ if C.raidframe.plugins_pvp_debuffs == true then
 		[SpellName(23694)] = 2,		-- Improved Hamstring
 		[SpellName(5246)] = 3,		-- Intimidating Shout
 		[SpellName(20253)] = 3,		-- Intercept Stun
-		[SpellName(12798)] = 3,		-- Revenge Stun
 		[SpellName(46968)] = 3,		-- Shockwave
 		[SpellName(18498)] = 3,		-- Silenced - Gag Order
 		-- Racial

@@ -295,7 +295,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 		end
 
 		if(not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
-			if(oUF:IsMainline() or oUF:IsWOTLK()) then
+			if(oUF:IsMainline() or oUF:IsWrath()) then
 				object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
 				object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
 			end
@@ -421,16 +421,16 @@ Used to determine if running Burning Crusade Classic.
 * self - the global oUF object
 --]]
 function oUF:IsTBC()
-	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+	return _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC and select(4, GetBuildInfo()) < 30000 -- TODO: Change later
 end
 
---[[ oUF:IsWOTLK()
+--[[ oUF:IsWrath()
 Used to determine if running Wrath of the Lich King Classic.
 
 * self - the global oUF object
 --]]
-function oUF:IsWOTLK()
-    return false -- TODO: Change when there is a project ID
+function oUF:IsWrath()
+    return select(4, GetBuildInfo()) >= 30400 and select(4, GetBuildInfo()) < 40000 -- TODO: Change when there is a project ID
 end
 
 --[[ oUF:RegisterInitCallback(func)
