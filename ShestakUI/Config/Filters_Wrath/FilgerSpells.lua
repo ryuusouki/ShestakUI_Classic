@@ -680,7 +680,7 @@ C["filger_spells"] = {
 			Position = {"TOP", T_DEBUFF_ICON_Anchor},
 
 			-- Blood Plague
-			{spellID = 55078, unitID = "target", caster = "player", filter = "DEBUFF"},
+			--{spellID = 55078, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Crypt Fever
 			{spellID = 50508, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Chains of Ice
@@ -696,7 +696,7 @@ C["filger_spells"] = {
 			-- Ebon Plague
 			{spellID = 51726, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Frost Fever
-			{spellID = 55095, unitID = "target", caster = "player", filter = "DEBUFF"},
+			--{spellID = 55095, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Gnaw (Ghoul)
 			{spellID = 47481, unitID = "target", caster = "all", filter = "DEBUFF"},
 			-- Hungering Cold
