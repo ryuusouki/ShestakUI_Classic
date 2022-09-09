@@ -779,7 +779,7 @@ C["filger_spells"] = {
 			-- Blood Tap
 			{spellID = 45529, filter = "CD"},
 			-- Bone Shield
-			{spellID = 49222, filter = "CD"},
+			--{spellID = 49222, filter = "CD"},
 			-- Corpse Explosion
 			{spellID = 49158, filter = "CD"},
 			-- Dancing Rune Weapon
@@ -787,7 +787,7 @@ C["filger_spells"] = {
 			-- Dark Command
 			{spellID = 56222, filter = "CD"},
 			-- Death and Decay
-			{spellID = 43265, filter = "CD"},
+			--{spellID = 43265, filter = "CD"},
 			-- Death Grip
 			{spellID = 57602, filter = "CD"},
 			-- Deathchill
@@ -805,7 +805,7 @@ C["filger_spells"] = {
 			-- Hysteria / Unholy Frenzy
 			{spellID = 49016, filter = "CD"},
 			-- Icebound Fortitude
-			{spellID = 48792, filter = "CD"},
+			--{spellID = 48792, filter = "CD"},
 			-- Lichborne
 			{spellID = 49039, filter = "CD"},
 			-- Mark of Blood
