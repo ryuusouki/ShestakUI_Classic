@@ -787,7 +787,7 @@ C["filger_spells"] = {
 			-- Dark Command
 			{spellID = 56222, filter = "CD"},
 			-- Death and Decay
-			--{spellID = 43265, filter = "CD"},
+			{spellID = 43265, filter = "CD"},
 			-- Death Grip
 			{spellID = 57602, filter = "CD"},
 			-- Deathchill
@@ -795,9 +795,9 @@ C["filger_spells"] = {
 			-- Empower Rune Weapon
 			{spellID = 47568, filter = "CD"},
 			-- Ghoul Frenzy
-			{spellID = 63560, filter = "CD"},
+			--{spellID = 63560, filter = "CD"},
 			-- Horn of Winter
-			{spellID = 57330, filter = "CD"},
+			--{spellID = 57330, filter = "CD"},
 			-- Howling Blast
 			{spellID = 49184, filter = "CD"},
 			-- Hungering Cold
