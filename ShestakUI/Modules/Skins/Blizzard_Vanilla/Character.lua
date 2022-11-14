@@ -119,8 +119,6 @@ local function LoadSkin()
 	end
 
 	local function ColorItemBorder()
-		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "player" then return end
-
 		for _, slot in pairs(slots) do
 			local target = _G["Character"..slot]
 			local slotId = GetInventorySlotInfo(slot)
@@ -140,7 +138,7 @@ local function LoadSkin()
 	end
 
 	local CheckItemBorderColor = CreateFrame("Frame")
-	CheckItemBorderColor:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	CheckItemBorderColor:RegisterUnitEvent("UNIT_INVENTORY_CHANGED", "player", "")
 	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)
 	CharacterFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder()
@@ -199,7 +197,7 @@ local function LoadSkin()
 	PetPaperDollPetInfo:SetSize(24, 24)
 
 	updHappiness(PetPaperDollPetInfo)
-	PetPaperDollPetInfo:RegisterEvent("UNIT_HAPPINESS")
+	PetPaperDollPetInfo:RegisterUnitEvent("UNIT_HAPPINESS", "pet", "")
 	PetPaperDollPetInfo:SetScript("OnEvent", updHappiness)
 	PetPaperDollPetInfo:SetScript("OnShow", updHappiness)
 
@@ -462,6 +460,16 @@ local function LoadSkin()
 			PVPFrame.backdrop:SetPoint("TOPLEFT", 10, -12)
 			PVPFrame.backdrop:SetPoint("BOTTOMRIGHT", -32, 76)
 			T.SkinCloseButton(PVPParentFrameCloseButton, PVPFrame.backdrop)
+
+			for i = 1, 2 do
+				local tab = _G["PVPParentFrameTab"..i]
+				if tab then
+					T.SkinTab(tab)
+					if i == 1 then
+						tab:SetPoint("BOTTOMLEFT", PVPParentFrame, "BOTTOMLEFT", 11, 42)
+					end
+				end
+			end
 		end
 
 		for i = 1, MAX_ARENA_TEAMS do

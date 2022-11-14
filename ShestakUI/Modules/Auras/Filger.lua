@@ -41,6 +41,8 @@ local Filger = {}
 local MyUnits = {player = true, vehicle = true, pet = true}
 local SpellGroups = {}
 
+-- _G.Filger = Filger -- Check cpu
+
 function Filger:TooltipOnEnter()
 	if self.spellID > 20 then
 		local str = "spell:%s"
@@ -53,25 +55,6 @@ end
 
 function Filger:TooltipOnLeave()
 	GameTooltip:Hide()
-end
-
-function Filger:UnitAura(unitID, inSpellID, spellName, filter, absID)
-	for i = 1, 40 do
-		local name, icon, count, _, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unitID, i, filter)
-		if not name then break end
-		if (absID and spellID == inSpellID) or (not absID and name == spellName) then
-			if LibClassicDurations then
-				local durationNew, expirationTimeNew = LibClassicDurations:GetAuraDurationByUnit(unitID, spellID, unitCaster, name)
-
-				if durationNew and durationNew > 0 then
-					duration = durationNew
-					expirationTime = expirationTimeNew
-				end
-			end
-
-			return name, spellID, icon, count, duration, expirationTime, unitCaster
-		end
-	end
 end
 
 function Filger:UpdateCD()
@@ -322,9 +305,9 @@ local function FindAuras(self, unit)
 				if ((data.filter == "BUFF" and filter == "HELPFUL") or (data.filter == "DEBUFF" and filter == "HARMFUL")) and (not data.spec or data.spec == T.Spec) and (not data.talentID or isTalent) then
 					if not data.count or count >= data.count then
 						if LibClassicDurations then
-							local durationNew, expirationTimeNew = LibClassicDurations:GetAuraDurationByUnit(unit, spid, caster, name)
+							local durationNew, expirationTimeNew = LibClassicDurations:GetAuraDurationByUnit(data.unitID, spid, caster, name)
 
-							if duration == 0 and durationNew then
+							if durationNew and durationNew > 0 then
 								duration = durationNew
 								expirationTime = expirationTimeNew
 							end
@@ -346,9 +329,9 @@ local function FindAuras(self, unit)
 end
 
 function Filger:OnEvent(event, unit, _, castID)
-	if event == "UNIT_AURA" and (unit == "player" or unit == "target" or unit == "pet" or unit == "focus") then
+	if event == "UNIT_AURA" then
 		FindAuras(self, unit)
-	elseif event == "UNIT_SPELLCAST_SUCCEEDED" and unit == "player" then
+	elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
 		local name, _, icon = GetSpellInfo(castID)
 		local data = SpellGroups[self.Id].spells[name]
 		if data and data.filter == "ICD" and data.trigger == "NONE" and (not data.spec or data.spec == T.Spec) then
@@ -368,38 +351,6 @@ function Filger:OnEvent(event, unit, _, castID)
 		FindAuras(self, "focus")
 	elseif event == "PLAYER_ENTERING_WORLD" or event == "SPELL_UPDATE_COOLDOWN" then
 		if event == "PLAYER_ENTERING_WORLD" then
-			local _, instanceType = IsInInstance()
-			if instanceType == "raid" or instanceType == "pvp" then
-				if self:IsEventRegistered("UNIT_AURA") then
-					self:UnregisterEvent("UNIT_AURA")
-					self:SetScript("OnUpdate", function(timer, elapsed)
-						timer.elapsed = (timer.elapsed or 0) + elapsed
-						if timer.elapsed < 0.1 then return end
-						timer.elapsed = 0
-						for spid in pairs(self.actives) do
-							if self.actives[spid].data.filter ~= "CD" and self.actives[spid].data.filter ~= "ICD" then
-								self.actives[spid] = nil
-							end
-						end
-						FindAuras(self, "player")
-						if UnitExists("target") then
-							FindAuras(self, "target")
-						end
-						if UnitExists("pet") then
-							FindAuras(self, "pet")
-						end
-						if UnitExists("focus") then
-							FindAuras(self, "focus")
-						end
-					end)
-				end
-			else
-				if self:GetScript("OnUpdate") then
-					self:SetScript("OnUpdate", nil)
-					self:RegisterEvent("UNIT_AURA")
-				end
-			end
-
 			for spid in pairs(self.actives) do
 				if self.actives[spid].data.filter ~= "CD" and self.actives[spid].data.filter ~= "ICD" then
 					self.actives[spid] = nil
@@ -445,7 +396,9 @@ function Filger:OnEvent(event, unit, _, castID)
 					local wandSpeed = select(2, GetItemCooldown(wandID)) or 0
 					if wandSpeed < 1.5 then wandSpeed = 1.5 end
 					if name and (duration or 0) > wandSpeed then
-						self.actives[spid] = {data = data, name = name, icon = icon, count = nil, start = start, duration = duration, spid = spid, sort = data.sort}
+						if not (T.class == "DEATHKNIGHT" and data.filter == "CD" and duration < 10) then -- Filter rune cd
+							self.actives[spid] = {data = data, name = name, icon = icon, count = nil, start = start, duration = duration, spid = spid, sort = data.sort}
+						end
 					end
 				elseif name and (duration or 0) > 1.5 then
 					if not (T.class == "DEATHKNIGHT" and data.filter == "CD" and duration < 10) then -- Filter rune cd
@@ -608,6 +561,7 @@ if C["filger_spells"] and C["filger_spells"][T.class] then
 		local data = SpellGroups[i].data
 		if isEnabled[data.Name] then
 			local frame = CreateFrame("Frame", "FilgerFrame"..i.."_"..data.Name, T_PetBattleFrameHider or UIParent)
+			local petfocusframe = CreateFrame("Frame", nil, frame)
 			frame.Id = i
 			frame.Name = data.Name
 			frame.Direction = data.Direction or "DOWN"
@@ -641,11 +595,12 @@ if C["filger_spells"] and C["filger_spells"][T.class] then
 				for j = 1, #C["filger_spells"][T.class][i], 1 do
 					local data = C["filger_spells"][T.class][i][j]
 					if data.filter == "BUFF" or data.filter == "DEBUFF" or (data.filter == "ICD" and (data.trigger == "BUFF" or data.trigger == "DEBUFF")) then
-						frame:RegisterEvent("UNIT_AURA")
+						frame:RegisterUnitEvent("UNIT_AURA", "player", "target")
+						petfocusframe:RegisterUnitEvent("UNIT_AURA", "pet", "focus")
 					elseif data.filter == "CD" then
 						frame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 					elseif data.trigger == "NONE" then
-						frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+						frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player", "")
 					end
 					if data.unitID == "target" then
 						frame:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -655,6 +610,9 @@ if C["filger_spells"] and C["filger_spells"][T.class] then
 				end
 				frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 				frame:SetScript("OnEvent", Filger.OnEvent)
+				petfocusframe:SetScript("OnEvent", function(self, event, unit)
+					Filger.OnEvent(self:GetParent(), event, unit)
+				end)
 			end
 		end
 	end

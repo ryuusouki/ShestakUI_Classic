@@ -435,6 +435,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -1037,7 +1039,7 @@ C["filger_spells"] = {
 			-- Aura of the Crusader (Attack Power, Proc) [Darkmoon Card: Crusade]
 			{spellID = 39439, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Aura of the Crusader (Spell Power, Proc) [Darkmoon Card: Crusade]
-			-- {spellID = 39441, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			{spellID = 39441, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Aura of Wrath (Critical Strike, Proc) [Darkmoon Card: Wrath]
 			{spellID = 39443, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Berserker! (Critical Strike, Proc) [Darkmoon Card: Berserker!] - All classes
@@ -1230,6 +1232,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -2193,6 +2197,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -3641,7 +3647,7 @@ C["filger_spells"] = {
 			-- Aura of the Crusader (Attack Power, Proc) [Darkmoon Card: Crusade]
 			{spellID = 39439, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Aura of the Crusader (Spell Power, Proc) [Darkmoon Card: Crusade]
-			-- {spellID = 39441, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			{spellID = 39441, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Aura of Wrath (Critical Strike, Proc) [Darkmoon Card: Wrath]
 			{spellID = 39443, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Berserker! (Critical Strike, Proc) [Darkmoon Card: Berserker!] - All classes
@@ -3848,6 +3854,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -5493,6 +5501,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -6180,7 +6190,7 @@ C["filger_spells"] = {
 			-- Aura of the Crusader (Attack Power, Proc) [Darkmoon Card: Crusade]
 			{spellID = 39439, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Aura of the Crusader (Spell Power, Proc) [Darkmoon Card: Crusade]
-			-- {spellID = 39441, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			{spellID = 39441, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Aura of Wrath (Critical Strike, Proc) [Darkmoon Card: Wrath]
 			{spellID = 39443, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Berserker! (Critical Strike, Proc) [Darkmoon Card: Berserker!] - All classes
@@ -6281,6 +6291,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -8098,6 +8110,8 @@ C["filger_spells"] = {
 			{spellID = 35733, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Armor Penetration (Armor Penetration, Use) [Icon of Unyielding Courage]
 			{spellID = 34106, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			-- Battle Trance (Attack Power, Proc) [Blackened Naaru Sliver]
+			{spellID = 45040, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blood of the Old God (Attack Power, Proc) [Blood of the Old God]
 			{spellID = 64790, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Burning Hatred (Attack Power, Use) [Ogre Mauler's Badge / Uniting Charm]
@@ -8622,11 +8636,11 @@ C["filger_spells"] = {
 			-- Mighty Fire Protection Potion
 			{spellID = 53911, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Mighty Frost Protection Potion
-			{spellID = 40215, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			{spellID = 53913, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Mighty Nature Protection Potion
-			{spellID = 40216, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			{spellID = 53914, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Mighty Shadow Protection Potion
-			{spellID = 40217, unitID = "player", caster = "player", filter = "BUFF", absID = true},
+			{spellID = 53915, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Potion of Nightmares
 			{spellID = 53753, unitID = "player", caster = "player", filter = "DEBUFF"},
 			-- Potion of Speed

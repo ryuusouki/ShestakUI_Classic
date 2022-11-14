@@ -1,5 +1,5 @@
 local major = "LibHealComm-4.0"
-local minor = 106
+local minor = 107
 assert(LibStub, format("%s requires LibStub.", major))
 
 local HealComm = LibStub:NewLibrary(major, minor)
@@ -2837,8 +2837,6 @@ if isTBC or isWrath then
 	PlayerTargetSpells[GetSpellInfo(32546)] = true -- Binding Heal
 end
 function HealComm:UNIT_SPELLCAST_START(unit, cast, spellID)
-	if( unit ~= "player") then return end
-
 	local spellName = GetSpellInfo(spellID)
 
 	if (not spellData[spellName] or UnitIsCharmed("player") or not UnitPlayerControlled("player") ) then return end
@@ -2893,7 +2891,6 @@ local function hasNS()
 end
 
 function HealComm:UNIT_SPELLCAST_SUCCEEDED(unit, cast, spellID)
-	if( unit ~= "player") then return end
 	local spellName = GetSpellInfo(spellID)
 
 	if spellID == 20216 then
@@ -2912,7 +2909,7 @@ end
 
 function HealComm:UNIT_SPELLCAST_STOP(unit, castGUID, spellID)
 	local spellName = GetSpellInfo(spellID)
-	if( unit ~= "player" or not spellData[spellName] or spellData[spellName]._isChanneled ) then return end
+	if( not spellData[spellName] or spellData[spellName]._isChanneled ) then return end
 
 	if not spellCastSucceeded[spellID] then
 		parseHealEnd(playerGUID, nil, "name", spellID, true)
@@ -2925,7 +2922,7 @@ end
 -- Cast didn't go through, recheck any charge data if necessary
 function HealComm:UNIT_SPELLCAST_INTERRUPTED(unit, castGUID, spellID)
 	local spellName = GetSpellInfo(spellID)
-	if( unit ~= "player" or not spellData[spellName] ) then return end
+	if( not spellData[spellName] ) then return end
 
 	local guid = castGUIDs[spellID]
 	if( guid ) then
@@ -2936,7 +2933,7 @@ end
 function HealComm:UNIT_SPELLCAST_DELAYED(unit, castGUID, spellID)
 	local spellName = GetSpellInfo(spellID)
 	local casterGUID = UnitGUID(unit)
-	if( unit ~= "player" or not pendingHeals[casterGUID] or not pendingHeals[casterGUID][spellName] ) then return end
+	if( not pendingHeals[casterGUID] or not pendingHeals[casterGUID][spellName] ) then return end
 
 	-- Direct heal delayed
 	if( pendingHeals[casterGUID][spellName].bitType == DIRECT_HEALS ) then
@@ -3148,11 +3145,11 @@ function HealComm:UNIT_PET(unit)
 
 	-- We have an active pet guid from this user and it's different, kill it
 	local activeGUID = activePets[unit]
-	if activeGUID and activeGUID ~= petGUID then
+	if activeGUID and petGUID and activeGUID ~= petGUID then
 		removeAllRecords(activeGUID)
 
 		rawset(self.compressGUID, activeGUID, nil)
-		rawset(self.decompressGUID, "p-"..strsub(UnitGUID(unit),8), nil)
+		rawset(self.decompressGUID, "p-"..strsub(guid,8), nil)
 		guidToUnit[activeGUID] = nil
 		guidToGroup[activeGUID] = nil
 		activePets[unit] = nil
@@ -3296,25 +3293,25 @@ function HealComm:OnInitialize()
 	end
 
 	if( ResetChargeData ) then
-		HealComm.eventFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+		HealComm.eventFrame:RegisterUnitEvent("UNIT_SPELLCAST_INTERRUPTED", "player", "")
 	end
 
 	-- Finally, register it all
 	self.eventFrame:RegisterEvent("CHAT_MSG_ADDON")
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_SENT")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_START")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+	self.eventFrame:RegisterUnitEvent("UNIT_SPELLCAST_START", "player", "")
+	self.eventFrame:RegisterUnitEvent("UNIT_SPELLCAST_STOP", "player", "")
+	self.eventFrame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", "player", "")
+	self.eventFrame:RegisterUnitEvent("UNIT_SPELLCAST_DELAYED", "player", "")
+	self.eventFrame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", "player", "")
+	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", "player", "")
 	self.eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self.eventFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 	self.eventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self.eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 	self.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
 	self.eventFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	self.eventFrame:RegisterEvent("UNIT_AURA")
+	self.eventFrame:RegisterUnitEvent("UNIT_AURA", "player", "")
 	if isWrath then
 		self.eventFrame:RegisterEvent("GLYPH_ADDED")
 		self.eventFrame:RegisterEvent("GLYPH_REMOVED")
